@@ -7,5 +7,4 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'Online-Book-Sale-System-Frontend';
-  //deneme
 }

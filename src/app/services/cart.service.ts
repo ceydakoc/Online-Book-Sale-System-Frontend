@@ -112,23 +112,28 @@ export class CartService {
         // 1. If chosen product is already in cart array
         if (index !== -1) {
 
-          if (quantity !== undefined && quantity <= prod.quantity) { //product has stock
+          if (quantity !== undefined && quantity <= prod.quantity) {
             // @ts-ignore
             this.cartDataServer.data[index].numInCart = this.cartDataServer.data[index].numInCart < prod.quantity ? quantity : prod.quantity;
+            this.toast.info(`${prod.name} quantity updated in the cart.`, "Product Updated", {
+              timeOut: 1500,
+              progressBar: true,
+              progressAnimation: 'increasing',
+              positionClass: 'toast-top-right'
+            });
+            
           } else {
             // @ts-ignore
             this.cartDataServer.data[index].numInCart < prod.quantity ? this.cartDataServer.data[index].numInCart++ : prod.quantity;
+            this.toast.error(`Sorry, there is no more stock than you add to your cart.`, "Stock Status", {
+              timeOut: 1500,
+              progressBar: true,
+              progressAnimation: 'increasing',
+              positionClass: 'toast-top-right'
+            });
           }
 
-
           this.cartDataClient.prodData[index].incart = this.cartDataServer.data[index].numInCart;
-          
-          this.toast.info(`${prod.name} quantity updated in the cart.`, "Product Updated", {
-            timeOut: 1500,
-            progressBar: true,
-            progressAnimation: 'increasing',
-            positionClass: 'toast-top-right'
-          })
         }
 
 
@@ -162,8 +167,19 @@ export class CartService {
   UpdateCartItems(index:number, increase: Boolean) {
     let data = this.cartDataServer.data[index];
     if (increase) {
-      // @ts-ignore
-      data.numInCart < data.product.quantity ? data.numInCart++ : data.product.quantity;
+      if(data.numInCart < data.product.quantity) {
+        // @ts-ignore
+        data.numInCart++
+      }
+      else{
+        this.toast.error(`Sorry, there is no more stock than you add to your cart.`, "Stock Status", {
+          timeOut: 1500,
+          progressBar: true,
+          progressAnimation: 'increasing',
+          positionClass: 'toast-top-right'
+        });
+        data.product.quantity;
+      } 
       this.cartDataClient.prodData[index].incart = data.numInCart;
       this.CalculateTotal();
       this.cartDataClient.total = this.cartDataServer.total;
@@ -194,6 +210,8 @@ export class CartService {
     /*  console.log(this.cartDataClient.prodData[index].prodId);
         console.log(this.cartDataServer.data[index].product.id);*/
 
+    let data = this.cartDataServer.data[index];
+
     if (window.confirm('Are you sure you want to delete the item?')) {
       this.cartDataServer.data.splice(index, 1);
       this.cartDataClient.prodData.splice(index, 1);
@@ -222,6 +240,8 @@ export class CartService {
     }
     // If the user doesn't want to delete the product, hits the CANCEL button
     else {
+      // @ts-ignore
+      data.numInCart++;
       return;
     }
 
@@ -295,6 +315,16 @@ export class CartService {
       total: 0
     };
     this.cartDataObs$.next({...this.cartDataServer});
+  }
+
+  CalculateSubTotal(index): Number {
+    let subTotal = 0;
+
+    let p = this.cartDataServer.data[index];
+    // @ts-ignore
+    subTotal = p.product.price * p.numInCart;
+
+    return subTotal;
   }
 }
 

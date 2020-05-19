@@ -20,7 +20,7 @@ export class ProfileComponent implements OnInit {
     this.userService.userData$
       .pipe(
         map((user: SocialUser | ResponseModel) => {
-          if (user instanceof SocialUser) {
+          if (user instanceof SocialUser || user.type === 'social') {
             return {
               email: 'test@test.com',
               ...user //display the whatever user has

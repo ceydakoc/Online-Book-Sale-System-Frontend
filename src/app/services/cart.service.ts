@@ -274,7 +274,7 @@ export class CartService {
   CheckoutFromCart(userId: Number) {
 
     this.http.post(`${this.ServerURL}orders/payment`, null).subscribe((res: { success: Boolean }) => {
-      console.clear();
+      //console.clear();
 
       if (res.success) {
         this.resetServerData();

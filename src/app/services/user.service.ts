@@ -23,10 +23,34 @@ export class UserService {
     authService.authState.subscribe((user: SocialUser) => {
       if (user != null) {
 
-        this.auth = true;
+        //this.auth = true;
         this.userRole = 555;
-        this.authState$.next(this.auth);
-        this.userData$.next(user);
+        //this.authState$.next(this.auth);
+        //this.userData$.next(user);
+        this.httpClient.get(`${this.SERVER_URL}users/validate/${user.email}`).subscribe((res: { status: boolean, user: object }) => {
+          //  No user exists in database with Social Login
+          if (!res.status) {
+            // Send data to backend to register the user in database so that the user can place orders against his user id
+            this.registerUser({
+              email: user.email,
+              fname: user.firstName,
+              lname: user.lastName,
+              password: '123456'
+            }, user.photoUrl, 'social').subscribe(res => {
+              if (res.message === 'Registration successful') {
+                this.auth = true;
+                this.authState$.next(this.auth);
+                this.userData$.next(user);
+              }
+            });
+
+          } else {
+            this.auth = true;
+            this.authState$.next(this.auth);
+            this.userData$.next(res.user);
+          }
+        });
+
 
       }
     });
@@ -61,6 +85,7 @@ export class UserService {
     this.authService.signOut();
     this.auth = false;
     this.authState$.next(this.auth);
+    this.userData$.next(null);
   }
 
   registerUser(formData: any, photoUrl?: string, typeOfUser?: string): Observable<{ message: string }> {

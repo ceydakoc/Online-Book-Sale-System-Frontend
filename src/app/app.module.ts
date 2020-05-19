@@ -1,6 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule} from '@angular/platform-browser/animations';
@@ -17,7 +16,8 @@ import {NgxSpinnerModule} from "ngx-spinner";
 import { LoginComponent } from './components/login/login.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import {AuthServiceConfig, GoogleLoginProvider, SocialLoginModule} from 'angularx-social-login';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { RegisterComponent } from './components/register/register.component';
 
 const config = new AuthServiceConfig([
   {
@@ -42,7 +42,8 @@ export function provideConfig() {
     ThankyouComponent,
     FooterComponent,
     LoginComponent,
-    ProfileComponent
+    ProfileComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule,
@@ -52,6 +53,7 @@ export function provideConfig() {
     NgxSpinnerModule,
     ToastrModule.forRoot(),
     FormsModule,
+    ReactiveFormsModule,
     SocialLoginModule
   ],
   providers: [

@@ -83,7 +83,7 @@ export class CartService {
   AddProductToCart(id: Number, quantity?: number) {
 
     this.productService.getSingleProduct(id).subscribe(prod => {
-      
+
       // If the cart is empty
       if (this.cartDataServer.data[0].product === undefined) { //there is no product in the cart (default value)
         this.cartDataServer.data[0].product = prod;
@@ -124,7 +124,7 @@ export class CartService {
               positionClass: 'toast-top-right'
             });
 
-          } else if(quantity === undefined && this.cartDataServer.data[index].numInCart < prod.quantity) {
+          } else if (quantity === undefined && this.cartDataServer.data[index].numInCart < prod.quantity) {
             // @ts-ignore
             this.cartDataServer.data[index].numInCart++;
             this.toast.info(`${prod.name} quantity updated in the cart.`, "Product Updated", {
@@ -134,7 +134,7 @@ export class CartService {
               positionClass: 'toast-top-right'
             });
           }
-          else{
+          else {
             this.toast.error(`Sorry, there is no more stock than you add to your cart.`, "Stock Status", {
               timeOut: 1500,
               progressBar: true,
@@ -276,11 +276,23 @@ export class CartService {
     this.http.post(`${this.ServerURL}orders/payment`, null).subscribe((res: { success: Boolean }) => {
       //console.clear();
 
+      var date;
+      date = new Date();
+      date = date.getFullYear() + '-' +
+        ('00' + (date.getMonth() + 1)).slice(-2) + '-' +
+        ('00' + date.getDate()).slice(-2) + ' ' +
+        ('00' + date.getHours()).slice(-2) + ':' +
+        ('00' + date.getMinutes()).slice(-2) + ':' +
+        ('00' + date.getSeconds()).slice(-2);
+      console.log(date);
+
       if (res.success) {
         this.resetServerData();
         this.http.post(`${this.ServerURL}orders/new`, {
           userId: userId,
-          products: this.cartDataClient.prodData
+          products: this.cartDataClient.prodData,
+          orderDate: date,
+          orderTotal: this.cartDataClient.total
         }).subscribe((data: OrderConfirmationResponse) => {
           setTimeout(() => {
             this.orderService.getSingleOrder(data.order_id).then(prods => {

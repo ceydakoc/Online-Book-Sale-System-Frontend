@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { OrderService } from 'src/app/services/order.service';
 import { UserService } from 'src/app/services/user.service';
+import { Router, NavigationExtras } from '@angular/router';
 
 @Component({
   selector: 'app-orders',
@@ -12,14 +13,28 @@ export class OrdersComponent implements OnInit {
   orders: any[] = [];
 
   constructor(private orderService: OrderService,
-              private userService: UserService) { }
+    private userService: UserService,
+    private router : Router) { }
 
   ngOnInit(): void {
     //@ts-ignore
     this.orderService.getUserOrders(this.userService.userData$.getValue().userId).subscribe((orders: ServerResponse) => {
       this.orders = orders;
-      console.log(this.orders);
+      for (var index = 0; index < orders.length; index++) {
+        this.orders[index].date = this.orders[index].date.replace('T',' ')
+        this.orders[index].date = this.orders[index].date.substring(0,16)
+      }
     });
+  }
+
+  orderDetails(orderId,total){
+    const navigationExtras: NavigationExtras = {
+      state: {
+        orderId: orderId,
+        total : total,
+      }
+    };
+    this.router.navigate(['/orderDetails'], navigationExtras)
   }
 
 }

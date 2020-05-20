@@ -2,7 +2,10 @@ import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { ProductService } from 'src/app/services/product.service';
 import { CartService } from 'src/app/services/cart.service';
-import {map} from "rxjs/operators";
+import { map } from "rxjs/operators";
+import { FavoriteService } from 'src/app/services/favorite.service';
+import { UserService } from 'src/app/services/user.service';
+import { ProductModelServer } from 'src/app/model/product.model';
 
 declare let $: any;
 
@@ -15,14 +18,14 @@ export class ProductComponent implements AfterViewInit, OnInit {
   id: Number;
   product;
   thumbimages: any[] = [];
-
-  
+  isFavorite: boolean = false;
   @ViewChild('quantity') quantityInput;
   constructor(private route: ActivatedRoute,
     private productService: ProductService,
-    private cartService: CartService) { }
-
-  ngOnInit(): void {
+    private cartService: CartService,
+    private userService: UserService,
+    private favoriteService: FavoriteService) {
+    // this.product = new ProductModelServer()
     this.route.paramMap.pipe(
       map((param: ParamMap) => {
         // @ts-ignore
@@ -30,14 +33,32 @@ export class ProductComponent implements AfterViewInit, OnInit {
       })
     ).subscribe(prodId => {
       this.id = prodId;
+
+
+      if (this.userService.userData$.getValue() !== null) {
+        //@ts-ignore
+        var userId = this.userService.userData$.getValue().userId;
+        this.favoriteService.getSingleFavorite(userId, this.id).subscribe((retVal) => {
+          if (retVal.success) {
+            this.isFavorite = true
+          }
+        })
+      }
+
       this.productService.getSingleProduct(this.id).subscribe(prod => {
+        //@ts-ignore
         this.product = prod;
+        console.log(this.product);
         if (prod.images !== null) {
           this.thumbimages = prod.images.split(';');
         }
 
       });
     });
+  }
+
+  ngOnInit(): void {
+
   }
 
   ngAfterViewInit(): void {
@@ -86,7 +107,7 @@ export class ProductComponent implements AfterViewInit, OnInit {
 
   Increase() {
     let value = parseInt(this.quantityInput.nativeElement.value);
-    if (this.product.quantity >= 1){
+    if (this.product.quantity >= 1) {
       value++;
 
       if (value > this.product.quantity) {
@@ -102,7 +123,7 @@ export class ProductComponent implements AfterViewInit, OnInit {
 
   Decrease() {
     let value = parseInt(this.quantityInput.nativeElement.value);
-    if (this.product.quantity > 0){
+    if (this.product.quantity > 0) {
       value--;
 
       if (value <= 1) {
@@ -113,6 +134,10 @@ export class ProductComponent implements AfterViewInit, OnInit {
       return;
     }
     this.quantityInput.nativeElement.value = value.toString();
+  }
+
+  toggleFavorites() {
+
   }
 
 }

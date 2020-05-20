@@ -102,8 +102,7 @@
                     </div>
 
                     <ul class="product-btns">
-                        <li><a href="#"><i class="fa fa-heart-o"></i> add to wishlist</a></li>
-                        <li><a href="#"><i class="fa fa-exchange"></i> add to compare</a></li>
+                        <li><button  style="border: none; background-color: transparent"  (click)  = "toggleFavorites()"><i [ngClass]="isFavorite?'fa fa-heart':'fa fa-heart-o'" style="color: red" ></i> {{isFavorite? 'Remove from Favorites' : 'Add to Favorites'}}</button></li>
                     </ul>
 
                     <ul class="product-links">

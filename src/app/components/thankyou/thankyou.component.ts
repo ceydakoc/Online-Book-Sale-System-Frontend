@@ -36,7 +36,7 @@ export class ThankyouComponent implements OnInit {
 
 }
 
-interface ProductResponseModel {
+export interface ProductResponseModel {
   id: Number;
   title: string;
   description: string;

@@ -10,6 +10,7 @@ import { ProfileComponent } from './components/profile/profile.component';
 import { ProfileGuard } from './guard/profile.guard';
 import { RegisterComponent } from './components/register/register.component';
 import { OrdersComponent } from './components/orders/orders.component';
+import { OrderDetailsComponent } from './components/order-details/order-details.component';
 
 
 const routes: Routes = [
@@ -39,6 +40,9 @@ const routes: Routes = [
   },
   {
     path: 'myOrders', component: OrdersComponent
+  },
+  {
+    path: 'orderDetails', component: OrderDetailsComponent
   },
   {
     path: '**', pathMatch: 'full', redirectTo: ''

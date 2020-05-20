@@ -19,7 +19,10 @@ import {AuthServiceConfig, GoogleLoginProvider, SocialLoginModule} from 'angular
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RegisterComponent } from './components/register/register.component';
 import { OrdersComponent } from './components/orders/orders.component';
-
+import { Ng2SearchPipeModule } from 'ng2-search-filter';
+import {NgPipesModule} from 'ngx-pipes';
+import { OrderDetailsComponent } from './components/order-details/order-details.component';
+import { NgxPaginationModule } from 'ngx-pagination';
 const config = new AuthServiceConfig([
   {
     id: GoogleLoginProvider.PROVIDER_ID,
@@ -45,7 +48,8 @@ export function provideConfig() {
     LoginComponent,
     ProfileComponent,
     RegisterComponent,
-    OrdersComponent
+    OrdersComponent,
+    OrderDetailsComponent
   ],
   imports: [
     BrowserModule,
@@ -56,7 +60,11 @@ export function provideConfig() {
     ToastrModule.forRoot(),
     FormsModule,
     ReactiveFormsModule,
-    SocialLoginModule
+    SocialLoginModule,
+    Ng2SearchPipeModule,
+    NgPipesModule,
+    NgxPaginationModule
+    
   ],
   providers: [
     {

@@ -1,1 +1,34 @@
-<p>orders works!</p>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="jumbotron text-center">
+                <div class="col-md-12">
+                    <div class="section-title">
+                        <h3 class="title">My Orders</h3>
+
+                    </div>
+                </div>
+            </div>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Order</th>
+                        <th>Date</th>
+                        <th>Total</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let o of orders | reverse">
+                        <td>{{o.id}}</td>
+                        <td>{{o.date}}</td>
+                        <td>{{o.total | currency:'₺'}}</td>
+                        <td>
+                            <button class="btn btn-success" type="submit" (click) = "orderDetails(o.id,o.total)">Details</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

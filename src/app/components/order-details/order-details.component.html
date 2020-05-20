@@ -1,0 +1,41 @@
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="jumbotron text-center">
+                <div class="col-md-12">
+                    <div class="section-title">
+                        <h3 class="title">Order Details</h3>
+                    </div>
+                </div>
+            </div>
+
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Image</th>
+                        <th>Title</th>
+                        <th>Price</th>
+                        <th>Quantity</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let p of products">
+                        <td>
+                            <img [src]="p.image" alt="{{p.title}}" class="img-thumbnail" width="100px">
+                        </td>
+                        <td>{{p.title}}</td>
+                        <td>{{p.price | currency:'₺'}}</td>
+                        <td>{{p.quantityOrdered}}</td>
+                    </tr>
+
+                    <tr class="border-0">
+                        <td style="border: none;"></td>
+                        <td></td>
+                        <td>TOTAL</td>
+                        <td>{{total | currency:'₺'}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

@@ -3,6 +3,7 @@ import { ProductService } from 'src/app/services/product.service';
 import { Router } from '@angular/router';
 import { ProductModelServer, ServerResponse } from 'src/app/model/product.model';
 import { CartService } from 'src/app/services/cart.service';
+import {NgxPaginationModule} from 'ngx-pagination';
 
 @Component({
   selector: 'app-home',
@@ -10,9 +11,9 @@ import { CartService } from 'src/app/services/cart.service';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
-
+  p: number = 1;
   products: ProductModelServer[] = [];
-
+  searchText : string
   constructor(private productService: ProductService,
               private router: Router,
               private cartService : CartService) { }
@@ -20,7 +21,6 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
     this.productService.getAllProducts().subscribe((prods: ServerResponse) => {
       this.products = prods.products;
-      console.log(this.products);
     });
   }
 

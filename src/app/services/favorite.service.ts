@@ -14,14 +14,20 @@ export class FavoriteService {
   constructor(private http: HttpClient,
   ) { }
 
-  getAllFavorites(userId : number) : Observable<ServerResponse> {
-    return this.http.get<ServerResponse>(this.SERVER_URL + 'favorites/' + userId)
+  getAllFavorites(userId : Number) : Observable<ServerResponse> {
+    return this.http.get<ServerResponse>(this.SERVER_URL + 'favorites/' + userId);
   }
   getSingleFavorite(userId : Number,productId:Number) :Observable <any> {
-    return this.http.get<any>(this.SERVER_URL + 'favorites/' + userId + "/" + productId)
+    return this.http.get<any>(this.SERVER_URL + 'favorites/' + userId + "/" + productId);
+  }
+  addProductToFavorites(userId: Number, productId: Number) : Observable <any> {
+    return this.http.post(`${this.SERVER_URL}favorites/new`, {
+      userId: userId,
+      productId: productId
+    });
   }
   removeFromFavorites(userId : Number,productId:Number):Observable <any>{
-    return this.http.delete<any>(this.SERVER_URL + 'favorites/' + userId + "/" + productId)
+    return this.http.delete<any>(this.SERVER_URL + 'favorites/' + userId + "/" + productId);
   }
 
 }

@@ -11,6 +11,7 @@ import { ProfileGuard } from './guard/profile.guard';
 import { RegisterComponent } from './components/register/register.component';
 import { OrdersComponent } from './components/orders/orders.component';
 import { OrderDetailsComponent } from './components/order-details/order-details.component';
+import { FavoritesComponent } from './components/favorites/favorites.component';
 
 
 const routes: Routes = [
@@ -43,6 +44,9 @@ const routes: Routes = [
   },
   {
     path: 'orderDetails', component: OrderDetailsComponent
+  },
+  {
+    path: 'favorites', component: FavoritesComponent, canActivate:[ProfileGuard]
   },
   {
     path: '**', pathMatch: 'full', redirectTo: ''

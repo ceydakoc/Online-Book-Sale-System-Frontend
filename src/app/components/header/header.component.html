@@ -11,9 +11,9 @@
             <ul class="header-links pull-right">
                 <li><a href="#"><i class="fa fa-try"></i>TRY</a></li>
                 <li><a routerLink="/profile"><i class="fa fa-sign-in"></i>
-                        {{authState === false ? 'LOGIN' : 'My Account'}}</a></li>
+                        {{authState === false ? 'LOGIN' : 'Account'}}</a></li>
                 <li *ngIf="!authState"><a routerLink="/register"><i class="fa fa-user-plus"></i>REGISTER</a></li>
-                <li *ngIf="authState"><a routerLink="/myOrders"><i class="fa fa-shopping-cart"></i>My Orders</a></li>
+                <li *ngIf="authState"><a routerLink="/myOrders"><i class="fa fa-shopping-cart"></i>Orders</a></li>
             </ul>
         </div>
     </div>
@@ -39,10 +39,9 @@
                     <div class="header-ctn">
                         <!-- Wishlist -->
                         <div>
-                            <a href="#">
+                            <a routerLink="/favorites">
                                 <i class="fa fa-heart-o"></i>
-                                <span>Your Wishlist</span>
-                                <div class="qty">0</div>
+                                <span>Favorites</span>
                             </a>
                         </div>
                         <!-- /Wishlist -->
@@ -51,7 +50,7 @@
                         <div class="dropdown">
                             <a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
                                 <i class="fa fa-shopping-cart"></i>
-                                <span>Your Cart</span>
+                                <span>Cart</span>
                                 <div class="qty">{{cartData.data[0].numInCart !== 0 ? cartData.data.length : 0}}</div>
                             </a>
                             <div class="cart-dropdown">

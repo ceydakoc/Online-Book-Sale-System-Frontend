@@ -5,7 +5,8 @@ import { CartService } from 'src/app/services/cart.service';
 import { map } from "rxjs/operators";
 import { FavoriteService } from 'src/app/services/favorite.service';
 import { UserService } from 'src/app/services/user.service';
-import { ProductModelServer } from 'src/app/model/product.model';
+import { ToastrService } from 'ngx-toastr';
+import { RatingService } from 'src/app/services/rating.service';
 
 declare let $: any;
 
@@ -19,12 +20,22 @@ export class ProductComponent implements AfterViewInit, OnInit {
   product;
   thumbimages: any[] = [];
   isFavorite: boolean = false;
+  isStock: boolean = false;
+  reviewCount: Number = 0;
+  averageRating: Number = 0;
+  processTitle: String = "0/10";
+  rate = 0;
+  isRating: boolean = false;
+
   @ViewChild('quantity') quantityInput;
+
   constructor(private route: ActivatedRoute,
     private productService: ProductService,
     private cartService: CartService,
     private userService: UserService,
-    private favoriteService: FavoriteService) {
+    private favoriteService: FavoriteService,
+    private ratingService: RatingService,
+    private toast: ToastrService) {
     // this.product = new ProductModelServer()
     this.route.paramMap.pipe(
       map((param: ParamMap) => {
@@ -40,7 +51,7 @@ export class ProductComponent implements AfterViewInit, OnInit {
         var userId = this.userService.userData$.getValue().userId;
         this.favoriteService.getSingleFavorite(userId, this.id).subscribe((retVal) => {
           if (retVal.success) {
-            this.isFavorite = true
+            this.isFavorite = true;
           }
         })
       }
@@ -52,8 +63,25 @@ export class ProductComponent implements AfterViewInit, OnInit {
         if (prod.images !== null) {
           this.thumbimages = prod.images.split(';');
         }
-
+        if (this.product.quantity <= 0) {
+          this.isStock = true;
+        }
       });
+
+      this.getAverageRating();
+
+      if(this.userService.userData$.getValue() != null){
+        //@ts-ignore
+        var userId = this.userService.userData$.getValue().userId;
+        this.ratingService.getUserRating(userId, this.id).subscribe(retVal => {
+          if(retVal.success == true){ // there is a rating
+            this.rate = retVal.ratingObj[0].value;
+            console.log(this.rate)
+            this.isRating = true;
+          }
+        });
+      }
+      
     });
   }
 
@@ -101,6 +129,20 @@ export class ProductComponent implements AfterViewInit, OnInit {
     }
   }
 
+  getAverageRating(){
+    this.ratingService.getAverageProductRating(this.id).subscribe(retVal => {
+      if(retVal.success){
+        this.reviewCount = retVal.count;
+        this.averageRating = retVal.average * 10;
+        if(retVal.average == Math.floor(retVal.average)){
+          this.processTitle = retVal.average + ".0/10";
+        }
+        else{
+          this.processTitle = retVal.average.toFixed(1) + "/10";
+        }
+      }
+    });
+  }
   addToCart(id: Number) {
     this.cartService.AddProductToCart(id, this.quantityInput.nativeElement.value);
   }
@@ -137,7 +179,103 @@ export class ProductComponent implements AfterViewInit, OnInit {
   }
 
   toggleFavorites() {
+    if(this.userService.userData$.getValue() == null) {
+      this.toast.error(`You need to login to add the product to favorites.`, "", {
+        timeOut: 1500,
+        progressBar: true,
+        progressAnimation: 'increasing',
+        positionClass: 'toast-top-right'
+      });
+    }
+    else{
+      //@ts-ignore
+      var userId = this.userService.userData$.getValue().userId;
+      if(this.isFavorite){
+        this.favoriteService.removeFromFavorites(userId, this.id).subscribe((retVal) => {
+          if (retVal.success) {
+            this.isFavorite = false;
+            this.toast.success(`Successfully removed from favorites.`, "", {
+              timeOut: 1500,
+              progressBar: true,
+              progressAnimation: 'increasing',
+              positionClass: 'toast-top-right'
+            });
+          }
+          else{
+            this.toast.error(`Something went wrong.`, "", {
+              timeOut: 1500,
+              progressBar: true,
+              progressAnimation: 'increasing',
+              positionClass: 'toast-top-right'
+            });
+          }
+        });
 
+      }
+      else{
+        this.favoriteService.addProductToFavorites(userId, this.id).subscribe((retVal) => {
+          if (retVal.success) {
+            this.isFavorite = true;
+            this.toast.success(`Successfully added to favorites.`, "", {
+              timeOut: 1500,
+              progressBar: true,
+              progressAnimation: 'increasing',
+              positionClass: 'toast-top-right'
+            });
+          }
+          else{
+            this.toast.error(`Something went wrong.`, "", {
+              timeOut: 1500,
+              progressBar: true,
+              progressAnimation: 'increasing',
+              positionClass: 'toast-top-right'
+            });
+          }
+        });
+      }
+    }
   }
 
+  addReview(){
+    if(this.userService.userData$.getValue() == null) {
+      this.toast.error(`You need to login to add review.`, "", {
+        timeOut: 1500,
+        progressBar: true,
+        progressAnimation: 'increasing',
+        positionClass: 'toast-top-right'
+      });
+    }
+    else{
+      //@ts-ignore
+      var userId = this.userService.userData$.getValue().userId;
+
+      if(this.isRating){ //There is a rating for user
+        this.ratingService.updateProductRating(userId, this.id, this.rate).subscribe(retVal => {
+          if(retVal.success){
+            this.toast.success(`Successfully updated.`, "", {
+              timeOut: 1500,
+              progressBar: true,
+              progressAnimation: 'increasing',
+              positionClass: 'toast-top-right'
+            });
+            this.getAverageRating();
+          }
+        });
+      }
+      else{ //First rating for user
+        this.ratingService.addRatingToProduct(userId, this.id, this.rate).subscribe(retVal => {
+          if(retVal.success){
+            this.toast.success(`Successfully rated.`, "", {
+              timeOut: 1500,
+              progressBar: true,
+              progressAnimation: 'increasing',
+              positionClass: 'toast-top-right'
+            });
+            this.isRating = true;
+            this.getAverageRating();
+          }
+        });
+      }
+    }
+  }
 }

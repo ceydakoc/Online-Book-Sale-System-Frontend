@@ -33,7 +33,7 @@
                             <img [src]="product.image" alt="{{product.name}}">
                         </div>
                     </ng-template>
-                    
+
                     <ng-template [ngIf]="thumbimages.length > 0">
                         <div class="product-preview" *ngFor="let t of thumbimages">
                             <img [src]="t" alt="{{product.name}}">
@@ -71,17 +71,28 @@
                     <h2 class="product-name">{{product.name}}</h2>
                     <div>
                         <div class="product-rating">
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star-o"></i>
+                            <circle-progress [percent]="averageRating" [radius]="30" [outerStrokeWidth]="5"
+                                [innerStrokeWidth]="2" [outerStrokeColor]="'#78C000'" [innerStrokeColor]="'#C7E596'"
+                                [animation]="true" [showUnits]="false" [title]="processTitle" titleFontSize="12"
+                                titleFontWeight="800" titleColor="#000000" [showSubtitle]="false"
+                                [animationDuration]="500"></circle-progress>
                         </div>
-                        <a class="review-link" href="#">10 Review(s) | Add your review</a>
+
+                        <a class="review-link">{{reviewCount}} Review(s) </a>
+
                     </div>
                     <div>
+                        <bar-rating id="left" [(ngModel)]="rate" [max]="10"></bar-rating>
+                        <a id="right" (click)="addReview()" class="review-link">{{isRating? 'Update your review' : 'Add your review' }}</a>
+                    </div>
+                        <br>
+                        <br>
+
+                    <div>
+
+
                         <h3 class="product-price">{{product.price | currency: '₺'}}</h3>
-                        <span class="product-available">In Stock</span>
+                        <span [ngClass]="isStock? 'noStock': 'inStock'">{{isStock? 'No Stock': 'In Stock' }}</span>
                     </div>
                     <p>{{product.description}}</p>
 
@@ -89,20 +100,20 @@
                         <div class="qty-label">
                             Qty
                             <div class="input-number">
-                                <input type="number" [max]="product?.quantity >= 1 ? product?.quantity : 0"
-                                readonly
-                                #quantity
-                                value="{{product?.quantity >= 1 ? 1 : 0}}"    
-                                >
+                                <input type="number" [max]="product?.quantity >= 1 ? product?.quantity : 0" readonly
+                                    #quantity value="{{product?.quantity >= 1 ? 1 : 0}}">
                                 <span class="qty-up" (click)="Increase()">+</span>
                                 <span class="qty-down" (click)="Decrease()">-</span>
                             </div>
                         </div>
-                        <button class="add-to-cart-btn" (click)="addToCart(product?.id)"><i class="fa fa-shopping-cart"></i>Add To Cart</button>
+                        <button [disabled]="isStock" class="add-to-cart-btn" (click)="addToCart(product?.id)"><i
+                                class="fa fa-shopping-cart"></i>{{isStock? 'No Stock': 'Add to Cart' }}</button>
                     </div>
 
                     <ul class="product-btns">
-                        <li><button  style="border: none; background-color: transparent"  (click)  = "toggleFavorites()"><i [ngClass]="isFavorite?'fa fa-heart':'fa fa-heart-o'" style="color: red" ></i> {{isFavorite? 'Remove from Favorites' : 'Add to Favorites'}}</button></li>
+                        <li><button style="border: none; background-color: transparent" (click)="toggleFavorites()"><i
+                                    [ngClass]="isFavorite?'fa fa-heart':'fa fa-heart-o'" style="color: red"></i>
+                                {{isFavorite? 'Remove from Favorites' : 'Add to Favorites'}}</button></li>
                     </ul>
 
                     <ul class="product-links">

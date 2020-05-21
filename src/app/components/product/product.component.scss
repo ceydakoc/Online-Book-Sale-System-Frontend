@@ -1,0 +1,49 @@
+.inStock {
+    color: green;
+    font-size: 12px;
+    text-transform: uppercase;
+    font-weight: 700;
+    margin-left: 30px;
+}
+
+.noStock {
+    color: red;
+    font-size: 12px;
+    text-transform: uppercase;
+    font-weight: 700;
+    margin-left: 30px;
+}
+
+.star {
+    display: inline-block;
+    position: relative;
+    font-size:15px;
+    color: #ddd;
+}
+  
+  .star:after {
+    font-family: FontAwesome;
+    content: "\f005";
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 70%;
+    overflow: hidden;
+    color: #f80;
+}
+  
+  #left { 
+    float:left; 
+    width:50%;
+} 
+
+#right{ 
+  float:right; 
+  width:45%;
+  margin-top: 5.5%;
+} 
+
+a:hover{
+  cursor: pointer;
+  color: red;
+}

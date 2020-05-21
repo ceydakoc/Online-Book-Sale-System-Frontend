@@ -23,6 +23,10 @@ import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import {NgPipesModule} from 'ngx-pipes';
 import { OrderDetailsComponent } from './components/order-details/order-details.component';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { FavoritesComponent } from './components/favorites/favorites.component';
+import { NgCircleProgressModule } from 'ng-circle-progress';
+import { BarRatingModule } from "ngx-bar-rating";
+
 const config = new AuthServiceConfig([
   {
     id: GoogleLoginProvider.PROVIDER_ID,
@@ -49,7 +53,8 @@ export function provideConfig() {
     ProfileComponent,
     RegisterComponent,
     OrdersComponent,
-    OrderDetailsComponent
+    OrderDetailsComponent,
+    FavoritesComponent
   ],
   imports: [
     BrowserModule,
@@ -63,8 +68,9 @@ export function provideConfig() {
     SocialLoginModule,
     Ng2SearchPipeModule,
     NgPipesModule,
-    NgxPaginationModule
-    
+    NgxPaginationModule,
+    NgCircleProgressModule.forRoot(),
+    BarRatingModule
   ],
   providers: [
     {

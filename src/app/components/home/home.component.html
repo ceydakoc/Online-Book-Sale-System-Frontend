@@ -6,9 +6,20 @@
 		<div class="row">
 
 			<!-- section title -->
+			<!-- FILTER BAR -->
+			<div class="col-md-3">
+				<div class="header-search">
+					
+					<select class="input-select" (change) = "sortBy()" id = "sortDropDown" [(ngModel)] = "selectedOption">
+						<option value="-1" disabled selected>Sort By</option>
+						<option *ngFor = "let s of sortOptions; let i = index" value="{{i}}">{{s}}</option>
+					</select>
 
+				</div>
+			</div>
+			<!-- FILTER BAR -->
 			<!-- SEARCH BAR -->
-			<div class="col-md-12">
+			<div class="col-md-9">
 				<div class="header-search">
 
 					<!-- <select class="input-select">

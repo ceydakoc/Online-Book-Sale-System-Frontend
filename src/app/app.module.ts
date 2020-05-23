@@ -26,6 +26,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { FavoritesComponent } from './components/favorites/favorites.component';
 import { NgCircleProgressModule } from 'ng-circle-progress';
 import { BarRatingModule } from "ngx-bar-rating";
+import { OrderModule } from 'ngx-order-pipe';
 
 const config = new AuthServiceConfig([
   {
@@ -70,12 +71,13 @@ export function provideConfig() {
     NgPipesModule,
     NgxPaginationModule,
     NgCircleProgressModule.forRoot(),
-    BarRatingModule
+    BarRatingModule,
+    OrderModule
   ],
   providers: [
     {
       provide: AuthServiceConfig,
-      useFactory: provideConfig
+      useFactory: provideConfig,
     }
   ],
   bootstrap: [AppComponent]

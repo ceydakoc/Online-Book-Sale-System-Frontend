@@ -7,28 +7,33 @@ import { CheckoutComponent } from './components/checkout/checkout.component';
 import { ThankyouComponent } from './components/thankyou/thankyou.component';
 import { LoginComponent } from './components/login/login.component';
 import { ProfileComponent } from './components/profile/profile.component';
-import { ProfileGuard } from './guard/profile.guard';
+
 import { RegisterComponent } from './components/register/register.component';
 import { OrdersComponent } from './components/orders/orders.component';
 import { OrderDetailsComponent } from './components/order-details/order-details.component';
 import { FavoritesComponent } from './components/favorites/favorites.component';
+import { AdminProductComponent } from './components/admin-product/admin-product.component';
+import { AdminGuard } from './guard/admin.guard';
+import { CustomerGuard } from './guard/customer.guard';
+import { VisitorGuard } from './guard/visitor.guard';
+import { ProfileGuard } from './guard/profile.guard';
 
 
 const routes: Routes = [
   {
-    path : '',component:HomeComponent
+    path : '',component:HomeComponent, canActivate:[VisitorGuard]
   },
   {
-    path: 'product/:id', component:ProductComponent
+    path: 'product/:id', component:ProductComponent, canActivate:[VisitorGuard]
   },
   {
-    path: 'cart',component:CartComponent
+    path: 'cart',component:CartComponent, canActivate:[VisitorGuard]
   },
   {
-    path: 'checkout',component:CheckoutComponent, canActivate:[ProfileGuard]
+    path: 'checkout',component:CheckoutComponent, canActivate:[CustomerGuard]
   },
   {
-    path: 'thankyou', component:ThankyouComponent
+    path: 'thankyou', component:ThankyouComponent, canActivate:[CustomerGuard]
   },
   {
     path: 'login', component:LoginComponent
@@ -40,13 +45,16 @@ const routes: Routes = [
     path: 'register', component: RegisterComponent
   },
   {
-    path: 'myOrders', component: OrdersComponent
+    path: 'myOrders', component: OrdersComponent, canActivate:[CustomerGuard]
   },
   {
     path: 'orderDetails', component: OrderDetailsComponent
   },
   {
-    path: 'favorites', component: FavoritesComponent, canActivate:[ProfileGuard]
+    path: 'favorites', component: FavoritesComponent, canActivate:[CustomerGuard]
+  },
+  {
+    path: 'products', component: AdminProductComponent, canActivate:[AdminGuard]
   },
   {
     path: '**', pathMatch: 'full', redirectTo: ''

@@ -13,7 +13,7 @@
                 <li><a routerLink="/profile"><i class="fa fa-sign-in"></i>
                         {{authState === false ? 'LOGIN' : 'Account'}}</a></li>
                 <li *ngIf="!authState"><a routerLink="/register"><i class="fa fa-user-plus"></i>REGISTER</a></li>
-                <li *ngIf="authState"><a routerLink="/myOrders"><i class="fa fa-shopping-cart"></i>Orders</a></li>
+                <li *ngIf="userService.userData$.getValue() != null && userService.userData$.getValue().role == 555"><a routerLink="/myOrders"><i class="fa fa-shopping-cart"></i>Orders</a></li>
             </ul>
         </div>
     </div>
@@ -38,7 +38,7 @@
                 <div class="col-md-9 clearfix">
                     <div class="header-ctn">
                         <!-- Wishlist -->
-                        <div>
+                        <div *ngIf="userService.userData$.getValue() == null || (userService.userData$.getValue() != null && userService.userData$.getValue().role == 555)">
                             <a routerLink="/favorites">
                                 <i class="fa fa-heart-o"></i>
                                 <span>Favorites</span>
@@ -47,7 +47,7 @@
                         <!-- /Wishlist -->
 
                         <!-- Cart -->
-                        <div class="dropdown">
+                        <div class="dropdown" *ngIf="userService.userData$.getValue() == null || (userService.userData$.getValue() != null && userService.userData$.getValue().role == 555)">
                             <a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
                                 <i class="fa fa-shopping-cart"></i>
                                 <span>Cart</span>
@@ -108,10 +108,13 @@
         <!-- responsive-nav -->
         <div id="responsive-nav">
             <!-- NAV -->
-            <ul class="main-nav nav py-3">
-                <li><a routerLink="/">Home</a></li>
+            <ul class="main-nav nav py-3" *ngIf="userService.userData$.getValue() == null || (userService.userData$.getValue() != null && userService.userData$.getValue().role == 555)">
+                <li ><a routerLink="/">Home</a></li>
                 <li><a href="#">Categories</a></li>
                 <li><a href="#">Contact Us</a></li>
+            </ul>
+            <ul class="main-nav nav py-3" *ngIf="userService.userData$.getValue() != null && userService.userData$.getValue().role == 777">
+                <li><a routerLink="/products">Products</a></li>
             </ul>
             <!-- /NAV -->
         </div>

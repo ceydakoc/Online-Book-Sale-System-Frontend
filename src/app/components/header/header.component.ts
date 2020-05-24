@@ -31,7 +31,6 @@ export class HeaderComponent implements OnInit {
     this.cartService.cartDataObs$.subscribe(data => this.cartData = data);
 
     this.userService.authState$.subscribe(authState => this.authState = authState);
-    
   }
 
 }

@@ -27,6 +27,7 @@ import { FavoritesComponent } from './components/favorites/favorites.component';
 import { NgCircleProgressModule } from 'ng-circle-progress';
 import { BarRatingModule } from "ngx-bar-rating";
 import { OrderModule } from 'ngx-order-pipe';
+import { AdminProductComponent } from './components/admin-product/admin-product.component';
 
 const config = new AuthServiceConfig([
   {
@@ -55,7 +56,8 @@ export function provideConfig() {
     RegisterComponent,
     OrdersComponent,
     OrderDetailsComponent,
-    FavoritesComponent
+    FavoritesComponent,
+    AdminProductComponent
   ],
   imports: [
     BrowserModule,

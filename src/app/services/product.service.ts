@@ -16,7 +16,9 @@ export class ProductService {
   getAllProducts() : Observable<ServerResponse> {
     return this.http.get<ServerResponse>(this.SERVER_URL + 'products')
   }
-
+  getAllProductsAdmin() : Observable<ServerResponse> {
+    return this.http.get<ServerResponse>(this.SERVER_URL + 'products/admin/')
+  }
   getSingleProduct(id: Number): Observable<ProductModelServer> {
     return this.http.get<ProductModelServer>(this.SERVER_URL + 'products/' + id);
   }

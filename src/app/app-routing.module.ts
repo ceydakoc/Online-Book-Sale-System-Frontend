@@ -7,7 +7,6 @@ import { CheckoutComponent } from './components/checkout/checkout.component';
 import { ThankyouComponent } from './components/thankyou/thankyou.component';
 import { LoginComponent } from './components/login/login.component';
 import { ProfileComponent } from './components/profile/profile.component';
-
 import { RegisterComponent } from './components/register/register.component';
 import { OrdersComponent } from './components/orders/orders.component';
 import { OrderDetailsComponent } from './components/order-details/order-details.component';
@@ -19,6 +18,9 @@ import { VisitorGuard } from './guard/visitor.guard';
 import { ProfileGuard } from './guard/profile.guard';
 import { AdminCategoryComponent } from './components/admin-category/admin-category.component';
 import { AdminOrderComponent } from './components/admin-order/admin-order.component';
+import { AdminFavoriteComponent } from './components/admin-favorite/admin-favorite.component';
+import { AdminRatingComponent } from './components/admin-rating/admin-rating.component';
+import { AdminUserComponent } from './components/admin-user/admin-user.component';
 
 
 const routes: Routes = [
@@ -65,8 +67,18 @@ const routes: Routes = [
     path: 'orders', component: AdminOrderComponent, canActivate:[AdminGuard]
   },
   {
+    path: 'admin-favorites', component: AdminFavoriteComponent, canActivate:[AdminGuard]
+  },
+  {
+    path: 'ratings', component: AdminRatingComponent, canActivate:[AdminGuard]
+  },
+  {
+    path: 'users', component: AdminUserComponent, canActivate:[AdminGuard]
+  },
+  {
     path: '**', pathMatch: 'full', redirectTo: ''
   }
+  
 ];
 
 @NgModule({

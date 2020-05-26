@@ -1,0 +1,66 @@
+<head>
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+	<div class="container">
+
+		<div class="table-wrapper">
+			<div class="table-title">
+				<div class="row">
+					<div class="col-sm-6">
+						<h2>View <b>Favorited Books</b></h2>
+					</div>
+					<div class="col-sm-6">
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-3">
+                    <div class="header-search">
+                        
+                        <select class="input-select" (change) = "sortBy()" id = "sortDropDown" [(ngModel)] = "selectedOption">
+                            <option value="-1" disabled selected>Sort By</option>
+                            <option *ngFor = "let s of sortOptions; let i = index" value="{{i}}">{{s}}</option>
+                        </select>
+    
+                    </div>
+                </div>
+				<div class="col-sm-9">
+					<div class="header-search">
+
+						<input class="input" type="text" placeholder="Filter by id or description" [(ngModel)]="searchText"
+							name="something">
+					</div>
+				</div>
+			</div>
+
+			<br><br>
+			<table class="table table-striped table-hover">
+				<thead>
+					<tr>
+						<th>#</th>
+						<th>Image</th>
+						<th>Description</th>
+						<th>Count</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr
+						*ngFor="let f of favorites | advancedFilter: searchText : keysToInclude | paginate: { itemsPerPage: 9, currentPage: p }">
+						<td>{{f.product_id}}</td>
+						<td><img [src]="f.image" alt="{{f.short_desc}}" width="50px;" height="50px"></td>
+						<td>{{f.short_desc}}</td>
+						<td>{{f.count}}</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<pagination-controls (pageChange)="p = $event" class="pagination"></pagination-controls>
+	</div>
+</body>

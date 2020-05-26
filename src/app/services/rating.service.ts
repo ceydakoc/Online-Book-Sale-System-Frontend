@@ -34,4 +34,9 @@ export class RatingService {
       value: value
     });
   }
+
+  getRatingStatistic() :Observable <any> {
+    return this.http.get<any>(this.SERVER_URL + 'rating/statistic');
+  }
+
 }

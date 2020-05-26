@@ -32,6 +32,9 @@ import { FilterPipe } from './pipes/filter.pipe';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { AdminCategoryComponent } from './components/admin-category/admin-category.component';
 import { AdminOrderComponent } from './components/admin-order/admin-order.component';
+import { AdminFavoriteComponent } from './components/admin-favorite/admin-favorite.component';
+import { AdminRatingComponent } from './components/admin-rating/admin-rating.component';
+import { AdminUserComponent } from './components/admin-user/admin-user.component';
 
 const config = new AuthServiceConfig([
   {
@@ -64,7 +67,10 @@ export function provideConfig() {
     AdminProductComponent,
     FilterPipe,
     AdminCategoryComponent,
-    AdminOrderComponent
+    AdminOrderComponent,
+    AdminFavoriteComponent,
+    AdminRatingComponent,
+    AdminUserComponent
   ],
   imports: [
     BrowserModule,

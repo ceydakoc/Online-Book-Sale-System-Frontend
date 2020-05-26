@@ -30,4 +30,9 @@ export class FavoriteService {
     return this.http.delete<any>(this.SERVER_URL + 'favorites/' + userId + "/" + productId);
   }
 
+  getFavoriteStatistic() :Observable <any> {
+    return this.http.get<any>(this.SERVER_URL + 'favorites/statistic');
+  }
+
+
 }

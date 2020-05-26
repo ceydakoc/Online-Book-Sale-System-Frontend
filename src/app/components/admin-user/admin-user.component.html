@@ -1,0 +1,164 @@
+<head>
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+	<div class="container">
+
+		<div class="table-wrapper">
+			<div class="table-title">
+				<div class="row">
+					<div class="col-sm-6">
+						<h2>Manage <b>Users</b></h2>
+					</div>
+					<div class="col-sm-6">
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-3">
+					<div class="header-search">
+						<select class="input-select" (change)="filterBy()" [(ngModel)]="selectedOption">
+							<option value="all" selected>All Fields</option>
+							<option value="id">Id</option>
+							<option value="username">Username</option>
+							<option value="email">Email</option>
+							<option value="fname">First Name</option>
+							<option value="lname">Last Name</option>
+                            <option value="role">Role</option>
+                            <option value="type">Type</option>
+						</select>
+					</div>
+				</div>
+				<div class="col-sm-9">
+					<div class="header-search">
+
+						<input class="input" type="text" placeholder="Filter by text" [(ngModel)]="searchText"
+							name="something">
+					</div>
+				</div>
+			</div>
+
+			<br><br>
+			<table class="table table-striped table-hover">
+				<thead>
+					<tr>
+                        <th>#</th>
+                        <th>Photo</th>
+						<th>Username</th>
+						<th>Email</th>
+						<th>First Name</th>
+						<th>Last Name</th>
+						<th>Role</th>
+						<th>Type</th>
+						<th>Actions</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr
+						*ngFor="let u of users | advancedFilter: searchText : keysToInclude | paginate: { itemsPerPage: 9, currentPage: p }">
+						<td>{{u.id}}</td>
+						<td><img [src]="u.photoUrl" alt="{{u.username}}" width="50px;" height="50px"></td>
+						<td>{{u.username}}</td>
+						<td>{{u.email}}</td>
+						<td>{{u.fname}}</td>
+						<td>{{u.lname}}</td>
+						<td>{{u.role}}</td>
+                        <td>{{u.type}}</td>
+						<td>
+							<a href="#editUserModal" class="edit" data-toggle="modal"><i class="material-icons"
+									data-toggle="tooltip" title="Edit" (click)="getEditUserId(u.id)">&#xE254;</i></a>
+							<a href="#deleteUserModal" class="delete" data-toggle="modal"><i class="material-icons"
+									data-toggle="tooltip" title="Delete"
+									(click)="getDeleteUserId(u.id)">&#xE872;</i></a>
+						</td>
+					</tr>
+
+				</tbody>
+			</table>
+
+		</div>
+		<pagination-controls (pageChange)="p = $event" class="pagination"></pagination-controls>
+	</div>
+
+	<!-- Edit Modal HTML -->
+	<div id="editUserModal" class="modal fade">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<form>
+					<div class="modal-header">
+						<h4 class="modal-title">Edit User</h4>
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					</div>
+					<div class="modal-body">
+						<div class="form-group">
+							<label>UserId</label>
+							<input type="text" class="form-control" name="userId" [(ngModel)]="userId" required disabled>
+						</div>
+						<div class="form-group">
+							<label>Username</label>
+							<input type="text" class="form-control" name="username" [(ngModel)]="username" required disabled>
+						</div>
+						<div class="form-group" >
+							<label>Image</label>
+							<input type="text" class="form-control" name="image" [(ngModel)]="userImage" required>
+						</div>
+						<div class="form-group" >
+							<label>Email</label>
+							<input type="email" class="form-control" name="email" [(ngModel)]="userEmail" required disabled>
+						</div>
+						<div class="form-group" >
+							<label>First Name</label>
+							<input type="text" class="form-control" name="firstname" [(ngModel)]="userFname" required disabled>
+						</div>
+						<div class="form-group" >
+							<label>Last Name</label>
+							<input type="text" class="form-control" name="lastname" [(ngModel)]="userLname" required disabled>
+						</div>
+						<div class="form-group" >
+							<label>Role</label>
+							<ng-select name="role" [virtualScroll]="true" [items]="roles" bindLabel="name" bindValue="role" [multiple]="false"
+								[(ngModel)]="userRole"> 
+							</ng-select>
+						</div>
+						<div class="form-group" >
+							<label>Type</label>
+							<input type="text" class="form-control" name="userType" [(ngModel)]="userType" required disabled>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+						<input type="submit" class="btn btn-success" data-dismiss="modal" value="Save" (click)="editUser()">
+					</div>
+				</form>
+			</div>
+		</div>
+	</div> 
+	<!-- Delete Modal HTML -->
+	<div id="deleteUserModal" class="modal fade">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<form>
+					<div class="modal-header">
+						<h4 class="modal-title">Delete User</h4>
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					</div>
+					<div class="modal-body">
+						<p>Are you sure you want to delete this user?</p>
+						<p class="text-warning"><small>This action cannot be undone.</small></p>
+					</div>
+					<div class="modal-footer">
+						<input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+						<input type="submit" class="btn btn-danger" data-dismiss="modal" value="Delete"
+							(click)="deleteUser()">
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</body>

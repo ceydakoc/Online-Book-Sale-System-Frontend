@@ -30,7 +30,7 @@
                 <div id="product-main-img">
                     <ng-template [ngIf]="thumbimages.length === 0">
                         <div class="product-preview">
-                            <img [src]="product.image" alt="{{product.name}}">
+                            <img [src]="product.image" alt="{{product.name}}" >
                         </div>
                     </ng-template>
 
@@ -94,7 +94,7 @@
                         <h3 class="product-price">{{product.price | currency: '₺'}}</h3>
                         <span [ngClass]="isStock? 'noStock': 'inStock'">{{isStock? 'No Stock': 'In Stock' }}</span>
                     </div>
-                    <p>{{product.description}}</p>
+                    <pre><p style="word-break: break-word; white-space: break-spaces;">{{product.description}}</p></pre>
 
                     <div class="add-to-cart">
                         <div class="qty-label">

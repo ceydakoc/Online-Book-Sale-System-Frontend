@@ -55,7 +55,7 @@
                 </thead>
                 <tbody>
                     <tr
-                        *ngFor="let o of orders | reverse | advancedFilter: searchText : keysToInclude | paginate: { itemsPerPage: 9, currentPage: p }">
+                        *ngFor="let o of orders  | advancedFilter: searchText : keysToInclude | paginate: { itemsPerPage: 9, currentPage: p } | reverse">
                         <td>{{o.id}}</td>
                         <td>{{o.date}}</td>
                         <td>{{o.user_id}}</td>

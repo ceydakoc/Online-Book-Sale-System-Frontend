@@ -19,7 +19,7 @@ export class AdminOrderComponent implements OnInit {
   keysToInclude: any[] = ["id", "user_id", "username", "total", "date"];
   selectedOption: string = "all"
   cartTotal: Number;
-  
+
   constructor(private orderService: OrderService,
     private toast: ToastrService) {
 
@@ -52,7 +52,7 @@ export class AdminOrderComponent implements OnInit {
 
 
   showOrder() {
-    
+
   }
 
   getDeleteOrderId(orderId: Number) {
@@ -62,7 +62,7 @@ export class AdminOrderComponent implements OnInit {
   getShowOrderId(orderId: Number) {
     this.willShowId = orderId;
     for (let index = 0; index < this.orders.length; index++) {
-      if(this.orders[index].id == this.willShowId){
+      if (this.orders[index].id == this.willShowId) {
         this.cartTotal = this.orders[index].total;
       }
     }
@@ -76,12 +76,16 @@ export class AdminOrderComponent implements OnInit {
 
   getOrders() {
     this.orders.length = 0;
-    this.orderService.getOrdersAdmin().subscribe((orders: DatabaseOrderModel) => {
+    console.log(this.orders)
+    this.orderService.getOrdersAdmin().subscribe((returnVal: DatabaseOrderModel) => {
       //@ts-ignore
-      this.orders = orders.orders;
-      for (let index = 0; index < this.orders.length; index++) {
-        this.orders[index].date = this.orders[index].date.replace('T',' ');
-        this.orders[index].date = this.orders[index].date.substring(0,16);
+      if (returnVal.success) {
+        //@ts-ignore
+        this.orders = returnVal.orders;
+        for (let index = 0; index < this.orders.length; index++) {
+          this.orders[index].date = this.orders[index].date.replace('T', ' ');
+          this.orders[index].date = this.orders[index].date.substring(0, 16);
+        }
       }
     });
   }

@@ -100,6 +100,26 @@ export class UserService {
       photoUrl: photoUrl || null
     });
   }
+
+  getAllUsers() : Observable<any>{
+    return this.httpClient.get<any>(this.SERVER_URL + "users/" )
+  }
+
+  getSingleUser(userId : Number) : Observable<any>{
+    return this.httpClient.get<any>(this.SERVER_URL + "users/" + userId)
+  }
+
+  deleteAdminUser(userId : Number):Observable<any>{
+    return this.httpClient.delete<any>(this.SERVER_URL + "users/adminDelete/" + userId);
+  }
+
+  updateAdminUser(userId : Number, image : string,role : Number){
+    return this.httpClient.put(`${this.SERVER_URL}users/adminUpdate/` + userId , {
+      role : role,
+      id : userId,
+      photoUrl : image
+    });
+  }
 }
 
 export interface ResponseModel {

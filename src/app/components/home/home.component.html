@@ -49,7 +49,7 @@
 					<div class="col-md-4 col-sm-6"
 						*ngFor="let p of products | filter : searchText | paginate: { itemsPerPage: 9, currentPage: p }">
 						<div class="card my-2">
-							<img [src]="p.image" alt="{{p.name}}" width="200px" class="card-img-top"
+							<img [src]="p.image" alt="{{p.name}}" width="200px" class="card-img-top" height="500px"
 								(click)="selectProduct(p.id)" style="cursor:pointer;">
 							<div class="card-header">
 								<div class="card-title">

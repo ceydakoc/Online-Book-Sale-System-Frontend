@@ -29,6 +29,9 @@ import { BarRatingModule } from "ngx-bar-rating";
 import { OrderModule } from 'ngx-order-pipe';
 import { AdminProductComponent } from './components/admin-product/admin-product.component';
 import { FilterPipe } from './pipes/filter.pipe';
+import { NgSelectModule } from '@ng-select/ng-select';
+import { AdminCategoryComponent } from './components/admin-category/admin-category.component';
+import { AdminOrderComponent } from './components/admin-order/admin-order.component';
 
 const config = new AuthServiceConfig([
   {
@@ -59,7 +62,9 @@ export function provideConfig() {
     OrderDetailsComponent,
     FavoritesComponent,
     AdminProductComponent,
-    FilterPipe
+    FilterPipe,
+    AdminCategoryComponent,
+    AdminOrderComponent
   ],
   imports: [
     BrowserModule,
@@ -76,7 +81,8 @@ export function provideConfig() {
     NgxPaginationModule,
     NgCircleProgressModule.forRoot(),
     BarRatingModule,
-    OrderModule
+    OrderModule,
+    NgSelectModule
   ],
   providers: [
     {

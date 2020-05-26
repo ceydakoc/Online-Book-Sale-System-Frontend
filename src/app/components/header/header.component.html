@@ -115,6 +115,8 @@
             </ul>
             <ul class="main-nav nav py-3" *ngIf="userService.userData$.getValue() != null && userService.userData$.getValue().role == 777">
                 <li><a routerLink="/products">Products</a></li>
+                <li><a routerLink="/categories">Categories</a></li>
+                <li><a routerLink="/orders">Orders</a></li>
             </ul>
             <!-- /NAV -->
         </div>

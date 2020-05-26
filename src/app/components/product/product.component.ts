@@ -7,6 +7,7 @@ import { FavoriteService } from 'src/app/services/favorite.service';
 import { UserService } from 'src/app/services/user.service';
 import { ToastrService } from 'ngx-toastr';
 import { RatingService } from 'src/app/services/rating.service';
+import { DatabaseProductModel } from 'src/app/model/product.model';
 
 declare let $: any;
 
@@ -17,7 +18,7 @@ declare let $: any;
 })
 export class ProductComponent implements AfterViewInit, OnInit {
   id: Number;
-  product;
+  product: any;
   thumbimages: any[] = [];
   isFavorite: boolean = false;
   isStock: boolean = false;

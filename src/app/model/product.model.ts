@@ -15,3 +15,16 @@ export interface ProductModelServer {
     products: ProductModelServer[]
   };
   
+  export interface DatabaseProductModel  {
+    id: Number;
+    title: string;
+    image: string;
+    images: string;
+    description: string;
+    price: Number;
+    quantity: Number;
+    short_desc: string;
+    cat_id: Number;
+    
+    
+  };

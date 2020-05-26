@@ -17,6 +17,8 @@ import { AdminGuard } from './guard/admin.guard';
 import { CustomerGuard } from './guard/customer.guard';
 import { VisitorGuard } from './guard/visitor.guard';
 import { ProfileGuard } from './guard/profile.guard';
+import { AdminCategoryComponent } from './components/admin-category/admin-category.component';
+import { AdminOrderComponent } from './components/admin-order/admin-order.component';
 
 
 const routes: Routes = [
@@ -55,6 +57,12 @@ const routes: Routes = [
   },
   {
     path: 'products', component: AdminProductComponent, canActivate:[AdminGuard]
+  },
+  {
+    path: 'categories', component: AdminCategoryComponent, canActivate:[AdminGuard]
+  },
+  {
+    path: 'orders', component: AdminOrderComponent, canActivate:[AdminGuard]
   },
   {
     path: '**', pathMatch: 'full', redirectTo: ''

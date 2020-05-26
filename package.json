@@ -19,6 +19,7 @@
     "@angular/platform-browser": "~9.0.7",
     "@angular/platform-browser-dynamic": "~9.0.7",
     "@angular/router": "~9.0.7",
+    "@ng-select/ng-select": "^4.0.0",
     "angularx-social-login": "^2.3.1",
     "formBuilder": "^3.4.2",
     "ng-circle-progress": "^1.5.1",

@@ -27,11 +27,12 @@ export class OrdersComponent implements OnInit {
     });
   }
 
-  orderDetails(orderId,total){
+  orderDetails(orderId,total,address){
     const navigationExtras: NavigationExtras = {
       state: {
         orderId: orderId,
         total : total,
+        address: address
       }
     };
     this.router.navigate(['/orderDetails'], navigationExtras)

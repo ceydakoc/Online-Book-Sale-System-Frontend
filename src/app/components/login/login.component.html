@@ -1,36 +1,53 @@
 <div class="container">
-    <div class="jumbotron">
-      <div class="row">
-        <div class="col-md-6 d-flex mx-auto flex-column">
-          <ng-container *ngIf="loginMessage?.length > 0">
-            <div class="alert alert-danger alert-dismissible text-center">
-              {{loginMessage}}
-            </div>
-          </ng-container>
-          <form novalidate #myform="ngForm">
-            <div class="form-group">
-              <label for="email">Email</label>
-              <input class="form-control" id="email" type="email" [(ngModel)]="email" name="email" required>
-            </div>
-  
-            <div class="form-group">
-              <label for="password">Password</label>
-              <input class="form-control" id="password" type="password" [(ngModel)]="password" name="password" required>
-            </div>
-            <div class="d-flex flex-column align-items-center justify-content-around">
-              <button class="btn btn-primary btn-sm btn-block" (click)="login(myform)" [disabled]="myform.invalid && myform.touched">Login</button>
-              <hr>
-              <h4 class="text-uppercase"><strong>Login Using</strong></h4>
-  
-              <button (click)="signInWithGoogle()" class="btn btn-danger btn-sm btn-block mt-4"><span><i
-                class="fa fa-google"></i> Google </span>
-              </button>
-            </div>
-          </form>
-  
-  
+
+  <div class="jumbotron" style="background-color: white;">
+    <div class="row">
+      <div class="col-md-12">
+
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6 d-flex mx-auto flex-column">
+
+        <ng-container *ngIf="loginMessage?.length > 0">
+          <div class="alert alert-danger alert-dismissible text-center">
+            {{loginMessage}}
+          </div>
+
+        </ng-container>
+        <form novalidate #myform="ngForm" style="margin-left: 13%;">
+          <div class="col-md-9">
+            <h3 style="padding: 10px; text-align: center; border: 3px solid indianred; border-radius: 40px;">Please Sign In</h3>
+          </div><br>
+          <div class="col-md-9">
+            <i class="fa fa-envelope" aria-hidden="true"></i>&nbsp;
+            <label for="email">Email</label>
+            <input class="form-control" id="email" type="email" [(ngModel)]="email" name="email" required>
+          </div>
+          <br>
+          <div class="col-md-9">
+            <i class="fa fa-key" aria-hidden="true"></i>&nbsp;
+            <label for="password">Password</label>
+            <input class="form-control" id="password" type="password" [(ngModel)]="password" name="password" required>
+          </div><br>
+          <div class="col-md-9">
+            <button class="btn btn-primary  btn-block" (click)="login(myform)"
+              [disabled]="myform.invalid && myform.touched" style="width: 40%; margin: auto;">Login</button>
+            <hr>
+            <h6 style="text-align: center;"><strong style="text-align: center;">Login Via</strong></h6>
+
+            <button (click)="signInWithGoogle()" class="btn btn-danger  btn-block mt-4"
+              style="width: 40%; margin: auto;"><span><i class="fa fa-google"></i>&nbsp;&nbsp;Google </span>
+            </button>
+          </div>
+        </form>
+        <br>
+        <div style="margin-left: 20%;">
+          <p style="float: left;"> Don't have an account ? </p>&nbsp;<a href="/register">Sign Up</a>
         </div>
       </div>
     </div>
   </div>
-  
+
+</div>

@@ -46,4 +46,5 @@ interface UserOrdersResponseModel {
   user_id: String;
   date: Date;
   total: Number;
+  address: String;
 }

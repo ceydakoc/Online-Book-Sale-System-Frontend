@@ -4,83 +4,114 @@
 	<div class="container">
 		<!-- row -->
 		<div class="row">
+			<!-- ASIDE -->
+			<div id="aside" class="col-md-3">
+				<!-- aside Widget -->
+				<div class="aside">
+					<h3 class="aside-title">Categories</h3>
+					<div class="checkbox-filter">
 
-			<!-- section title -->
-			<!-- FILTER BAR -->
-			<div class="col-md-3">
-				<div class="header-search">
-					
-					<select class="input-select" (change) = "sortBy()" id = "sortDropDown" [(ngModel)] = "selectedOption">
-						<option value="-1" disabled selected>Sort By</option>
-						<option *ngFor = "let s of sortOptions; let i = index" value="{{i}}">{{s}}</option>
-					</select>
+						<div class="input-checkbox" >
+							<input type="radio" id="all-cat" name="cat" (click)="editSearchText('all-cat')" checked>
+							<label for="all-cat" style="font-size: 16px;">
+								<span></span>
+								All Categories
+							</label>
+						</div>
 
+						<div class="input-checkbox" *ngFor="let c of categories">
+							<input type="radio" id="{{c.title}}" name="cat" (click)='editSearchText(c.title)'>
+							<label for="{{c.title}}" style="font-size: 16px;">
+								<span></span>
+								{{c.title}}
+							</label>
+						</div>
+
+					</div>
 				</div>
-			</div>
-			<!-- FILTER BAR -->
-			<!-- SEARCH BAR -->
-			<div class="col-md-9">
-				<div class="header-search">
+				<!-- /aside Widget -->
 
-					<!-- <select class="input-select">
-							<option value="0">All Categories</option>
-							<option value="1">Category 01</option>
-							<option value="1">Category 02</option>
-						</select> -->
-					<input class="input" type="text" placeholder="Filter by name, category, amount, description etc."
-						[(ngModel)]="searchText" name="something">
-					<!-- <button class="search-btn">Filter</button> -->
-				</div>
-			</div>
-			<!-- /SEARCH BAR -->
-
-			<div class="col-md-12">
-				<div class="section-title">
-					<h3 class="title">Books</h3>
-
-				</div>
-			</div>
-			<!-- /section title -->
-
-			<!-- Products tab & slick -->
-			<div class="col-md-12">
-				<div class="row">
-
-					<div class="col-md-4 col-sm-6"
-						*ngFor="let p of products | filter : searchText | paginate: { itemsPerPage: 9, currentPage: p }">
-						<div class="card my-2">
-							<img [src]="p.image" alt="{{p.name}}" width="200px" class="card-img-top" height="500px"
-								(click)="selectProduct(p.id)" style="cursor:pointer;">
-							<div class="card-header">
-								<div class="card-title">
-									<p>{{p.name | titlecase}}</p>
-								</div>
-							</div>
-
-							<div class="card-body">
-								<h6>{{p.description.substr(0, 40)}} ....</h6>
-								<p class="lead">{{p.price | currency:'₺'}}</p>
-							</div>
-
-							<div class="row d-flex justify-content-center border-primary my-3">
-								<div class="col-md-6 ">
-									<button class="btn btn-outline-primary btn-sm btn-block"
-										[class.disabled]="p.quantity < 1" [class.btn-outline-danger]="p.quantity < 1"
-										(click)="AddToCart(p.id)" [disabled]="p.quantity < 1">
-
-										{{ p.quantity < 1 ? "NO STOCK" : "Add To Cart"}}
-									</button>
-								</div>
-							</div>
+				<!-- aside Widget -->
+				<div class="aside">
+					<h3 class="aside-title">Top selling</h3>
+					<div class="product-widget" *ngFor="let ts of topSelling">
+						<div class="product-img">
+							<img [src]="ts.image" alt="ts.title" style="cursor:pointer;" (click)="selectProduct(ts.id)">
+						</div>
+						<div class="product-body">
+							<p class="product-category">{{ts.category}}</p>
+							<h3 class="product-name"><a style="cursor:pointer;" (click)="selectProduct(ts.id)">{{ts.short_desc}}</a></h3>
+							<h4 class="product-price">{{ts.price | currency:'₺'}}</h4>
 						</div>
 					</div>
 				</div>
+				<!-- /aside Widget -->
 			</div>
-			<!-- Products tab & slick -->
+			<!-- /ASIDE -->
+
+			<!-- STORE -->
+			<div id="store" class="col-md-9">
+				<!-- FILTER BAR -->
+				<div class="row">
+					<div class="col">
+						<div class="header-search">
+
+							<select class="input-select" (change)="sortBy()" id="sortDropDown"
+								[(ngModel)]="selectedOption">
+								<option value="-1" disabled selected>Sort By</option>
+								<option *ngFor="let s of sortOptions; let i = index" value="{{i}}">{{s}}</option>
+							</select>
+
+						</div>
+					</div>
+					<div class="col-md-8">
+						<div class="header-search">
+							<input class="input" type="text"
+								placeholder="Filter by name, category, amount, description etc."
+								[(ngModel)]="searchText" name="something">
+						</div>
+					</div>
+				</div>
+				<!-- /FILTER BAR -->
+
+				<!-- store products -->
+				<div class="row">
+					<!-- product -->
+					<div class="col-md-4 col-xs-6" *ngFor="let p of products | filter : searchText | paginate: { itemsPerPage: 9, currentPage: p } let i = index; ">
+						<div class="product" >
+							<div class="product-img">
+								<img  [src]="p.image"  height="390px" alt="{{p.name}}" (click)="selectProduct(p.id)" style="cursor:pointer;">
+							</div>
+							<div class="product-body" style="height: 160px;">
+								<p class="product-category">{{p.category}}</p>
+								<h3 class="product-name"><a style="cursor:pointer;" (click)="selectProduct(p.id)"><p>{{p.short_desc | titlecase}}</p></a></h3>
+								<h4 class="product-price">{{p.price | currency:'₺'}}</h4>
+							</div>
+							<div class="add-to-cart">
+								<button class="add-to-cart-btn"[class.disabled]="p.quantity < 1" [class.btn-outline-danger]="p.quantity < 1"
+								(click)="AddToCart(p.id)" [disabled]="p.quantity < 1">
+
+								{{ p.quantity < 1 ? "NO STOCK" : "Add To Cart"}}<i class="fa fa-shopping-cart"></i></button>
+							</div>
+						</div>
+						<div class="clearfix visible-sm visible-xs"></div>
+					</div>
+					<!-- /product -->
+
+					
+				</div>
+				<!-- /store products -->
+
+				<!-- store bottom filter -->
+				<div class="store-filter clearfix">
+					<pagination-controls (pageChange)="p = $event" class="pagination"></pagination-controls>
+				</div>
+				<!-- /store bottom filter -->
+			</div>
+			<!-- /STORE -->
 		</div>
 		<!-- /row -->
 	</div>
 	<!-- /container -->
 </div>
 <!-- /SECTION -->
-<pagination-controls (pageChange)="p = $event" class="pagination"></pagination-controls>

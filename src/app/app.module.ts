@@ -35,6 +35,8 @@ import { AdminOrderComponent } from './components/admin-order/admin-order.compon
 import { AdminFavoriteComponent } from './components/admin-favorite/admin-favorite.component';
 import { AdminRatingComponent } from './components/admin-rating/admin-rating.component';
 import { AdminUserComponent } from './components/admin-user/admin-user.component';
+import { AdminTopSellingComponent } from './components/admin-top-selling/admin-top-selling.component';
+import { ChartsModule } from 'ng2-charts';
 
 const config = new AuthServiceConfig([
   {
@@ -70,7 +72,8 @@ export function provideConfig() {
     AdminOrderComponent,
     AdminFavoriteComponent,
     AdminRatingComponent,
-    AdminUserComponent
+    AdminUserComponent,
+    AdminTopSellingComponent
   ],
   imports: [
     BrowserModule,
@@ -88,7 +91,8 @@ export function provideConfig() {
     NgCircleProgressModule.forRoot(),
     BarRatingModule,
     OrderModule,
-    NgSelectModule
+    NgSelectModule,
+    ChartsModule
   ],
   providers: [
     {

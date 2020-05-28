@@ -9,8 +9,9 @@ import { OrderService } from 'src/app/services/order.service';
   styleUrls: ['./order-details.component.scss']
 })
 export class OrderDetailsComponent implements OnInit {
-  orderId: any
-  total: any
+  orderId: any;
+  total: any;
+  address: string;
   products: ProductModelServer[] = [];
 
   constructor(private router: Router,
@@ -20,9 +21,11 @@ export class OrderDetailsComponent implements OnInit {
     const state = navigation.extras.state as {
       orderId: Number,
       total: Number
+      address: string
     };
-    this.orderId = state.orderId
-    this.total = state.total
+    this.orderId = state.orderId;
+    this.total = state.total;
+    this.address = state.address;
   }
 
   ngOnInit(): void {
@@ -30,7 +33,6 @@ export class OrderDetailsComponent implements OnInit {
     this.orderService.getSingleOrder(this.orderId).then(prods => {
       //@ts-ignore
       this.products = prods;
-      console.log(this.products)
     });
 
   }

@@ -47,6 +47,7 @@
                     <tr>
                         <th>#</th>
                         <th>Date</th>
+                        <th>Address</th>
                         <th>User Id</th>
                         <th>Username</th>
                         <th>Total</th>
@@ -58,6 +59,7 @@
                         *ngFor="let o of orders  | advancedFilter: searchText : keysToInclude | paginate: { itemsPerPage: 9, currentPage: p } | reverse">
                         <td>{{o.id}}</td>
                         <td>{{o.date}}</td>
+                        <td>{{o.address}}</td>
                         <td>{{o.user_id}}</td>
                         <td>{{o.username}}</td>
                         <td>{{o.total}}</td>

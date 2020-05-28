@@ -9,11 +9,10 @@
                 <li><a href="#"><i class="fa fa-map-marker"></i> 1734 Stonecoal Road</a></li>
             </ul>
             <ul class="header-links pull-right">
-                <li><a href="#"><i class="fa fa-try"></i>TRY</a></li>
-                <li><a routerLink="/profile"><i class="fa fa-sign-in"></i>
-                        {{authState === false ? 'LOGIN' : 'Account'}}</a></li>
-                <li *ngIf="!authState"><a routerLink="/register"><i class="fa fa-user-plus"></i>REGISTER</a></li>
-                <li *ngIf="userService.userData$.getValue() != null && userService.userData$.getValue().role == 555"><a routerLink="/myOrders"><i class="fa fa-shopping-cart"></i>Orders</a></li>
+                <li><a style="font-size: 14px;" routerLink="/profile"><i class="fa fa-sign-in"></i>
+                        {{authState === false ? 'Login' : 'Account'}}</a></li>
+                <li *ngIf="!authState"><a style="font-size: 14px;" routerLink="/register"><i class="fa fa-user-plus"></i>Register</a></li>
+                <li *ngIf="userService.userData$.getValue() != null && userService.userData$.getValue().role == 555"><a style="font-size: 14px;" routerLink="/myOrders"><i class="fa fa-shopping-cart"></i>Orders</a></li>
             </ul>
         </div>
     </div>
@@ -110,13 +109,13 @@
             <!-- NAV -->
             <ul class="main-nav nav py-3" *ngIf="userService.userData$.getValue() == null || (userService.userData$.getValue() != null && userService.userData$.getValue().role == 555)">
                 <li ><a routerLink="/">Home</a></li>
-                <li><a href="#">Categories</a></li>
                 <li><a href="#">Contact Us</a></li>
             </ul>
             <ul class="main-nav nav py-3" *ngIf="userService.userData$.getValue() != null && userService.userData$.getValue().role == 777">
                 <li><a routerLink="/products">Products</a></li>
                 <li><a routerLink="/categories">Categories</a></li>
                 <li><a routerLink="/orders">Orders</a></li>
+                <li><a routerLink="/top-selling">Top Selling</a></li>
                 <li><a routerLink="/admin-favorites">Favorites</a></li>
                 <li><a routerLink="/ratings">Ratings</a></li>
                 <li><a routerLink="/users">Users</a></li>

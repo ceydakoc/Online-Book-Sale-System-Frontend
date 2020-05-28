@@ -14,6 +14,7 @@
                     <tr>
                         <th>Order</th>
                         <th>Date</th>
+                        <th>Address</th>
                         <th>Total</th>
                         <th>Action</th>
                     </tr>
@@ -22,9 +23,10 @@
                     <tr *ngFor="let o of orders | reverse">
                         <td>{{o.id}}</td>
                         <td>{{o.date}}</td>
+                        <td>{{o.address}}</td>
                         <td>{{o.total | currency:'₺'}}</td>
                         <td>
-                            <button class="btn btn-success" type="submit" (click) = "orderDetails(o.id,o.total)">Details</button>
+                            <button class="btn btn-success" type="submit" (click) = "orderDetails(o.id,o.total, o.address)">Details</button>
                         </td>
                     </tr>
                 </tbody>

@@ -13,6 +13,7 @@ export class ThankyouComponent implements OnInit {
   orderId: Number;
   products: ProductResponseModel[] = [];
   cartTotal;
+  address: String;
   constructor(private router: Router,
     private orderService: OrderService) {
     const navigation = this.router.getCurrentNavigation();
@@ -27,6 +28,7 @@ export class ThankyouComponent implements OnInit {
     this.orderId = state.orderId;
     this.products = state.products;
     this.cartTotal = state.total;
+    this.address = state.products[0].address;
     console.log(this.products)
   }
 
@@ -43,4 +45,5 @@ export interface ProductResponseModel {
   price: Number;
   image: string;
   quantityOrdered: Number;
+  address: String;
 }

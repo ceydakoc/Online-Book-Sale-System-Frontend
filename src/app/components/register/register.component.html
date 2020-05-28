@@ -7,10 +7,10 @@
   
     <form (ngSubmit)="registerUser()" [formGroup]="registrationForm" class="form-horizontal" novalidate>
       <div class="row">
-        <div class="col-md-3"></div>
-        <div class="col-md-6">
-          <h2>Register New User</h2>
-          <hr>
+        <div class="col-md-1"></div>
+        <div class="col-md-8">
+          <h3 style="padding: 10px; text-align: center; border: 3px solid indianred; border-radius: 40px;">Register New User</h3>
+          <br>
         </div>
       </div>
       <div class="row">
@@ -147,7 +147,7 @@
         <div class="col-md-3"></div>
         <div class="col-md-6">
           <button [disabled]="(registrationForm.invalid || registrationForm.pending) && registrationForm.touched "
-                  class="btn btn-success" type="submit">
+                  class="btn btn-success" style="margin-left: 38%;" type="submit">
             <i class="fa fa-user-plus"></i> Register
           </button>
         </div>

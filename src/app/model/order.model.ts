@@ -4,4 +4,5 @@ export interface DatabaseOrderModel  {
     username: string;
     total: Number;
     date: string;
+    address: string;
   };

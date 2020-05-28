@@ -271,7 +271,7 @@ export class CartService {
     this.cartTotal$.next(this.cartDataServer.total);
   }
 
-  CheckoutFromCart(userId: Number) {
+  CheckoutFromCart(userId: Number, address: String) {
 
     this.http.post(`${this.ServerURL}orders/payment`, null).subscribe((res: { success: Boolean }) => {
       //console.clear();
@@ -292,7 +292,8 @@ export class CartService {
           userId: userId,
           products: this.cartDataClient.prodData,
           orderDate: date,
-          orderTotal: this.cartDataClient.total
+          orderTotal: this.cartDataClient.total,
+          address: address
         }).subscribe((data: OrderConfirmationResponse) => {
           setTimeout(() => {
             this.orderService.getSingleOrder(data.order_id).then(prods => {

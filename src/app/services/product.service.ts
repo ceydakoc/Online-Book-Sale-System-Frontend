@@ -13,8 +13,8 @@ export class ProductService {
 
   constructor(private http: HttpClient) { }
 
-  getAllProducts() : Observable<ServerResponse> {
-    return this.http.get<ServerResponse>(this.SERVER_URL + 'products')
+  getAllProducts() : Observable<any> {
+    return this.http.get<any>(this.SERVER_URL + 'products')
   }
 
   getAllProductsAdmin() : Observable<any> {
@@ -61,6 +61,10 @@ export class ProductService {
       short_desc: toEditProduct.short_desc,
       cat_id: toEditProduct.cat_id
     });
+  }
+
+  getTopSelling() :Observable <any> {
+    return this.http.get<any>(this.SERVER_URL + 'products/topSelling');
   }
 }
 

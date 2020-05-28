@@ -1,0 +1,49 @@
+<head>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <div class="table-wrapper">
+            <div class="table-title">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h2>View <b>Top Selling Books</b></h2>
+                    </div>
+                    <div class="col-sm-6">
+                    </div>
+                </div>
+            </div>
+            <br><br>
+            <div class="row">
+                <div class="col-md-2"></div>
+                <div class="col-md-5" style="text-align: right; font-size: 16px; padding-top: 10px;">
+                    <label>Select number of books for top selling: </label>
+                </div>
+                <div class="col-md-3">
+                    <select class="input-select" (change) = "numberOfTopSelling()" id="topSellingDropDown" [(ngModel)]="selectedOption">
+                        <option value="0" selected>All Books</option>
+                        <option value="5" selected>Top 5 Books</option>
+                        <option value="10" selected>Top 10 Books</option>
+                        <option value="15" selected>Top 15 Books</option>
+                    </select>
+                </div>
+                <div class="col-md-2"></div>
+            </div>
+
+            <br><br><br>
+            <div style="display: block;">
+                <canvas baseChart [data]="pieChartData" [labels]="pieChartLabels" [chartType]="pieChartType"
+                    [options]="pieChartOptions" [plugins]="pieChartPlugins" [legend]="pieChartLegend" [colors]="colorsChart">
+                </canvas>
+            </div>
+        </div>
+    </div>
+</body>

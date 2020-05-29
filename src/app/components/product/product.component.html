@@ -6,9 +6,9 @@
         <div class="row">
             <div class="col-md-12">
                 <ul class="breadcrumb-tree">
-                    <li><a href="#">Home</a></li>
-                    <li><a href="#">All Categories</a></li>
-                    <li><a href="#">{{product.category}}</a></li>
+                    <li>Home</li>
+                    <li>All Categories</li>
+                    <li>{{product.category}}</li>
                     <li class="active">{{product.name}}</li>
                 </ul>
             </div>
@@ -78,7 +78,7 @@
                                 [animationDuration]="500"></circle-progress>
                         </div>
 
-                        <a class="review-link">{{reviewCount}} Review(s) </a>
+                       <span style="font-size:10px">{{reviewCount}} Review(s)</span> 
 
                     </div>
                     <div>
@@ -115,21 +115,6 @@
                                     [ngClass]="isFavorite?'fa fa-heart':'fa fa-heart-o'" style="color: red"></i>
                                 {{isFavorite? 'Remove from Favorites' : 'Add to Favorites'}}</button></li>
                     </ul>
-
-                    <ul class="product-links">
-                        <li>Category:</li>
-                        <li><a href="#">Headphones</a></li>
-                        <li><a href="#">Accessories</a></li>
-                    </ul>
-
-                    <ul class="product-links">
-                        <li>Share:</li>
-                        <li><a href="#"><i class="fa fa-facebook"></i></a></li>
-                        <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-                        <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
-                        <li><a href="#"><i class="fa fa-envelope"></i></a></li>
-                    </ul>
-
                 </div>
             </div>
             <!-- /Product details -->

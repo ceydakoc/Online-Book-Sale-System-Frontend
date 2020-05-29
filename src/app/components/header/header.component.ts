@@ -19,7 +19,6 @@ export class HeaderComponent implements OnInit {
   constructor(public cartService: CartService,
     public userService: UserService,
     private favoriteService: FavoriteService) {
-    
   }
 
   ngOnInit(): void {

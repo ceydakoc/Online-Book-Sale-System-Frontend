@@ -1,0 +1,119 @@
+<head>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+    <div class="container">
+
+        <div class="table-wrapper">
+            <div class="table-title">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h2>View <b>Messages</b></h2>
+                    </div>
+                    <div class="col-sm-6">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-3">
+                    <div class="header-search">
+                        <select class="input-select" (change)="filterBy()" [(ngModel)]="selectedOption">
+                            <option value="all" selected>All Fields</option>
+                            <option value="id">Id</option>
+                            <option value="date">Date</option>
+                            <option value="name">Name</option>
+                            <option value="email">E-mail</option>
+                            <option value="subject">Subject</option>
+                            <option value="message">Message</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-sm-9">
+                    <div class="header-search">
+                        <input class="input" type="text" placeholder="Filter by text" [(ngModel)]="searchText"
+                            name="something">
+                    </div>
+                </div>
+            </div>
+
+            <br><br>
+            <table class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>Status</th>
+                        <th>#</th>
+                        <th>Date</th>
+                        <th>Name</th>
+                        <th>E-mail</th>
+                        <th>Subject</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr
+                        *ngFor="let m of messages  | advancedFilter: searchText : keysToInclude | paginate: { itemsPerPage: 9, currentPage: p } | reverse">
+                        <td><i [ngClass]="m.isRead? 'fa fa-envelope-open-o': 'fa fa-envelope'" aria-hidden="true"></i>
+                        </td>
+                        <td>{{m.id}}</td>
+                        <td>{{m.date}}</td>
+                        <td>{{m.name}}</td>
+                        <td>{{m.email}}</td>
+                        <td>{{m.subject}}</td>
+                        <td>
+                            <a href="#showOrderDetailsModal" class="edit" data-toggle="modal"><i class="material-icons"
+                                    data-toggle="tooltip" title="View" (click)="showMessageDetail(m)">&#xE417;</i></a>
+                        </td>
+                    </tr>
+
+                </tbody>
+            </table>
+
+        </div>
+        <pagination-controls (pageChange)="p = $event" class="pagination"></pagination-controls>
+    </div>
+
+
+    <div id="showOrderDetailsModal" class="modal fade">
+        <div class="modal-dialog" style="max-width: 60%; width: 60%;">
+            <div class="modal-content" style="font-size: 15px;">
+                <div class="modal-body" style="max-height: 600px; overflow-y: auto;">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Date</th>
+                                <th>Name</th>
+                                <th>E-mail</th>
+                                <th>Subject</th>
+                            </tr>
+                            
+                        </thead>
+                        <tbody>
+
+                            <tr>
+                                <td>{{id}}</td>
+                                <td>{{date}}</td>
+                                <td>{{name}}</td>
+                                <td>{{email}}</td>
+                                <td>{{subject}}</td>
+                                
+                            </tr>
+                        </tbody>
+                    </table>
+                    
+                    <span style="font-weight: bold;">Message</span><br><br>{{message}}
+                </div>
+                <div class="modal-footer">
+                    <input type="submit" class="btn btn-danger" data-dismiss="modal" value="OK">
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>

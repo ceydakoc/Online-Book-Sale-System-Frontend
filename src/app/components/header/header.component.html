@@ -1,25 +1,23 @@
 <!-- HEADER -->
 <header>
     <!-- TOP HEADER -->
-    <div id="top-header">
+    <div id="top-header" style="background-color: #15161D; height: 35px;">
         <div class="container">
-            <ul class="header-links pull-left">
-                <li><a href="#"><i class="fa fa-phone"></i> +021-95-51-84</a></li>
-                <li><a href="#"><i class="fa fa-envelope-o"></i> email@email.com</a></li>
-                <li><a href="#"><i class="fa fa-map-marker"></i> 1734 Stonecoal Road</a></li>
-            </ul>
-            <ul class="header-links pull-right">
+            <ul class="header-links pull-right " style="padding-right: 15px;">
                 <li><a style="font-size: 14px;" routerLink="/profile"><i class="fa fa-sign-in"></i>
                         {{authState === false ? 'Login' : 'Account'}}</a></li>
-                <li *ngIf="!authState"><a style="font-size: 14px;" routerLink="/register"><i class="fa fa-user-plus"></i>Register</a></li>
-                <li *ngIf="userService.userData$.getValue() != null && userService.userData$.getValue().role == 555"><a style="font-size: 14px;" routerLink="/myOrders"><i class="fa fa-shopping-cart"></i>Orders</a></li>
+                <li *ngIf="!authState"><a style="font-size: 14px;" routerLink="/register"><i
+                            class="fa fa-user-plus"></i>Register</a></li>
+                <li *ngIf="userService.userData$.getValue() != null && userService.userData$.getValue().role == 555"><a
+                        style="font-size: 14px;" routerLink="/myOrders"><i class="fa fa-shopping-cart"></i>Orders</a>
+                </li>
             </ul>
         </div>
     </div>
     <!-- /TOP HEADER -->
 
     <!-- MAIN HEADER -->
-    <div id="header">
+    <div id="header" style="height: 120px;">
         <!-- container -->
         <div class="container">
             <!-- row -->
@@ -27,8 +25,8 @@
                 <!-- LOGO -->
                 <div class="col-md-3">
                     <div class="header-logo">
-                        <a href="#" class="logo">
-                            <img src="../../assets/img/logo.png" alt="">
+                        <a routerLink = "/home" class="logo">
+                            <img src="../../assets/img/headerLogo.png" alt="" style="width: 317px; margin-top: -15px;">
                         </a>
                     </div>
                 </div>
@@ -37,8 +35,9 @@
                 <div class="col-md-9 clearfix">
                     <div class="header-ctn">
                         <!-- Wishlist -->
-                        <div *ngIf="userService.userData$.getValue() == null || (userService.userData$.getValue() != null && userService.userData$.getValue().role == 555)">
-                            <a routerLink="/favorites">
+                        <div
+                            *ngIf="userService.userData$.getValue() == null || (userService.userData$.getValue() != null && userService.userData$.getValue().role == 555)">
+                            <a routerLink="/favorites" style="padding-left: 28px;">
                                 <i class="fa fa-heart-o"></i>
                                 <span>Favorites</span>
                             </a>
@@ -46,7 +45,8 @@
                         <!-- /Wishlist -->
 
                         <!-- Cart -->
-                        <div class="dropdown" *ngIf="userService.userData$.getValue() == null || (userService.userData$.getValue() != null && userService.userData$.getValue().role == 555)">
+                        <div class="dropdown"
+                            *ngIf="userService.userData$.getValue() == null || (userService.userData$.getValue() != null && userService.userData$.getValue().role == 555)">
                             <a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
                                 <i class="fa fa-shopping-cart"></i>
                                 <span>Cart</span>
@@ -107,11 +107,14 @@
         <!-- responsive-nav -->
         <div id="responsive-nav">
             <!-- NAV -->
-            <ul class="main-nav nav py-3" *ngIf="userService.userData$.getValue() == null || (userService.userData$.getValue() != null && userService.userData$.getValue().role == 555)">
-                <li ><a routerLink="/">Home</a></li>
-                <li><a href="#">Contact Us</a></li>
+            <ul class="main-nav nav py-3"
+                *ngIf="userService.userData$.getValue() == null || (userService.userData$.getValue() != null && userService.userData$.getValue().role == 555)">
+                <li><a routerLink="/">Home</a></li>
+                <li><a routerLink="/contact">Contact Us</a></li>
             </ul>
-            <ul class="main-nav nav py-3" *ngIf="userService.userData$.getValue() != null && userService.userData$.getValue().role == 777">
+
+            <ul class="main-nav nav py-3"
+                *ngIf="userService.userData$.getValue() != null && userService.userData$.getValue().role == 777">
                 <li><a routerLink="/products">Products</a></li>
                 <li><a routerLink="/categories">Categories</a></li>
                 <li><a routerLink="/orders">Orders</a></li>
@@ -119,6 +122,7 @@
                 <li><a routerLink="/admin-favorites">Favorites</a></li>
                 <li><a routerLink="/ratings">Ratings</a></li>
                 <li><a routerLink="/users">Users</a></li>
+                <li><a routerLink="/admin-contact">Messages</a></li>
             </ul>
             <!-- /NAV -->
         </div>

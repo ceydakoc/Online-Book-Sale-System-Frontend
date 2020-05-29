@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ProductService } from 'src/app/services/product.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { CartService } from 'src/app/services/cart.service';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { OrderPipe } from 'ngx-order-pipe';
@@ -26,7 +26,8 @@ export class HomeComponent implements OnInit {
     private router: Router,
     private cartService: CartService,
     private orderPipe: OrderPipe,
-    private categoryService: CategoryService) {
+    private categoryService: CategoryService,
+    private route : ActivatedRoute) {
 
       this.productService.getAllProducts().subscribe((prods: any) => {
         this.products = prods.products;
@@ -37,7 +38,6 @@ export class HomeComponent implements OnInit {
       });
 
       this.getTopSelling();
-
   }
 
   ngOnInit(): void {

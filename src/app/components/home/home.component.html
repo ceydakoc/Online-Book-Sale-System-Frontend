@@ -20,7 +20,7 @@
 						</div>
 
 						<div class="input-checkbox" *ngFor="let c of categories">
-							<input type="radio" id="{{c.title}}" name="cat" (click)='editSearchText(c.title)'>
+							<input type="radio" id="{{c.title}}" name="cat" (click)='editSearchText(c.title)' class="catClass">
 							<label for="{{c.title}}" style="font-size: 16px;">
 								<span></span>
 								{{c.title}}

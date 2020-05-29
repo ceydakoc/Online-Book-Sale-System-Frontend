@@ -37,6 +37,8 @@ import { AdminRatingComponent } from './components/admin-rating/admin-rating.com
 import { AdminUserComponent } from './components/admin-user/admin-user.component';
 import { AdminTopSellingComponent } from './components/admin-top-selling/admin-top-selling.component';
 import { ChartsModule } from 'ng2-charts';
+import { ContactComponent } from './components/contact/contact.component';
+import { AdminContactComponent } from './components/admin-contact/admin-contact.component';
 
 const config = new AuthServiceConfig([
   {
@@ -73,7 +75,9 @@ export function provideConfig() {
     AdminFavoriteComponent,
     AdminRatingComponent,
     AdminUserComponent,
-    AdminTopSellingComponent
+    AdminTopSellingComponent,
+    ContactComponent,
+    AdminContactComponent
   ],
   imports: [
     BrowserModule,

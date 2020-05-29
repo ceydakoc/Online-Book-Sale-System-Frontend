@@ -22,6 +22,8 @@ import { AdminFavoriteComponent } from './components/admin-favorite/admin-favori
 import { AdminRatingComponent } from './components/admin-rating/admin-rating.component';
 import { AdminUserComponent } from './components/admin-user/admin-user.component';
 import { AdminTopSellingComponent } from './components/admin-top-selling/admin-top-selling.component';
+import { ContactComponent } from './components/contact/contact.component';
+import { AdminContactComponent } from './components/admin-contact/admin-contact.component';
 
 
 const routes: Routes = [
@@ -78,6 +80,12 @@ const routes: Routes = [
   },
   {
     path: 'top-selling', component: AdminTopSellingComponent, canActivate:[AdminGuard]
+  },
+  {
+    path: 'contact', component: ContactComponent, canActivate:[VisitorGuard]
+  },
+  {
+    path: 'admin-contact', component: AdminContactComponent, canActivate:[AdminGuard]
   },
   {
     path: '**', pathMatch: 'full', redirectTo: ''

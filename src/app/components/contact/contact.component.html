@@ -1,0 +1,57 @@
+<br><br>
+
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<section class="contactus-one" id="contactus"><!-- Section id-->
+        <div class="container">
+            <div class="row">
+            	<div class="col-md-6 col-sm-6">
+                    <div style="width: 100%"><iframe width="100%" height="600" src="https://maps.google.com/maps?width=100%&amp;height=600&amp;hl=en&amp;coord=38.37106845,27.207774805861&amp;q=Kuru%C3%A7e%C5%9Fme%2C%20T%C4%B1naztepe%20Kamp%C3%BCs%C3%BC%2C%2035390%20Buca%2F%C4%B0zmir+(Dokuz%20Eyl%C3%BCl%20University)&amp;ie=UTF8&amp;t=&amp;z=14&amp;iwloc=B&amp;output=embed" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"><a href="https://www.maps.ie/draw-radius-circle-map/">km radius map</a></iframe></div><br />
+                	
+                </div>
+            	<div class=" col-md-5 col-sm-6">
+                	<div class="contact-block">
+                        <div class="dart-headingstyle-one dart-mb-20">  <!--Style 1-->
+                        <h2 class="dart-heading">Contact US</h2>
+                      </div>
+                        <br>
+                        <div class="contact-form"><!-- contact form -->
+                            <form class="row" action="send_email.php" id="contact" name="contact" method="post" >
+                              <div class="form-group col-md-12">
+                                <input type="text" class="form-control" name="InputName" id="InputName" placeholder="Your Name" required [(ngModel)] = "name">
+                              </div>
+                              <div class="form-group col-md-12">
+                                <input type="email" class="form-control" name="InputEmail" id="InputEmail" placeholder="Your Email" required   [(ngModel)] = "email">
+                              </div>
+                              <div class="form-group col-md-12">
+                                <input type="text" class="form-control" name="InputWeb" id="InputWeb" placeholder="Subject (Optional)"  [(ngModel)] = "subject">
+                              </div>
+                              <div class="form-group col-md-12">
+                                <textarea class="form-control" name="InputMessage" id="InputMessage" style="height: 100px;" placeholder="Message" required  [(ngModel)] = "message"></textarea>
+                              </div>
+                              <div class="col-md-12">
+                              <button name="submit" type="submit" class="btn normal-btn dart-btn-xs" (click) = "addNewMessage()">SEND MESSAGE</button>
+                              </div>
+                            </form>
+                        </div>
+                        
+                        <hr>
+                        
+                        <div class=" row contact-info">
+                        	<div class="col-md-12 col-sm-12">
+                        		<p class="addre"><i class="fa fa-map-marker"></i>Kuruçeşme, Tınaztepe Kampüsü, 35390 Buca/İzmir</p>
+                            </div>
+                            <div class="col-md-12 col-sm-12">
+                        		<p class="phone-call"><i class="fa fa-phone"></i>0232 232 23 23</p>
+                            </div>
+                            <div class="col-md-12 col-sm-12">
+                                <p class="mail-id"><i class="fa fa-envelope"></i>ceyda.koc@ceng.deu.edu.tr</p>
+                                <p class="mail-id"><i class="fa fa-envelope"></i>evren.ozlu@ceng.deu.edu.tr</p>
+                            </div>
+                        </div>
+                        
+					</div>
+                </div>                
+            </div>            
+        </div>
+    </section> 
+    <br><br>

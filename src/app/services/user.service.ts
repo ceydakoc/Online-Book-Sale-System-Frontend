@@ -5,6 +5,7 @@ import { environment } from 'src/environments/environment';
 import { BehaviorSubject, of, Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { LogService } from './log.service';
+import { updateUserModel } from '../model/updateUser.model';
 
 @Injectable({
   providedIn: 'root'
@@ -94,6 +95,16 @@ export class UserService {
   googleLogin() {
     this.authService.signIn(GoogleLoginProvider.PROVIDER_ID);
 
+  }
+
+  updateUser(user:updateUserModel) : Observable <any>{
+    return this.httpClient.put<any>(`${this.SERVER_URL}users/updateUser`, {
+      id : user.id,
+      fname : user.fname,
+      lname : user.lname,
+      password : user.password
+    });
+    
   }
 
   logout() {

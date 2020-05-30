@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {NgxPaginationModule} from 'ngx-pagination';
+import { NgxPaginationModule } from 'ngx-pagination';
 import { ProductModelServer, ServerResponse } from 'src/app/model/product.model';
 import { ProductService } from 'src/app/services/product.service';
 import { Router } from '@angular/router';
@@ -16,23 +16,31 @@ import { UserService } from 'src/app/services/user.service';
 export class FavoritesComponent implements OnInit {
   p: number = 1;
   products: ProductModelServer[] = [];
-  searchText : string
+  searchText: string
 
   constructor(private favoriteService: FavoriteService,
     private router: Router,
-    private cartService : CartService,
+    private cartService: CartService,
     private userService: UserService) { }
 
   ngOnInit(): void {
     var data = this.userService.userData$.getValue();
-    if(data != null){
+    if (data != null) {
       //@ts-ignore
-      var userId = data.userId;
+      var userId;
+
+      if (data.type == 'social') {
+        userId = data.id;
+      }
+      else {
+        userId = data.userId;
+      }
+
       this.favoriteService.getAllFavorites(userId).subscribe((prods: ServerResponse) => {
         this.products = prods.products;
       });
     }
-    else{
+    else {
       console.log("login error.")
     }
   }
@@ -41,8 +49,8 @@ export class FavoritesComponent implements OnInit {
     this.router.navigate(['/product', id]).then();
   }
 
-  AddToCart(id:number){
+  AddToCart(id: number) {
     this.cartService.AddProductToCart(id);
   }
-  
+
 }

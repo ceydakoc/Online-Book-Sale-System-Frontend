@@ -1,3 +1,5 @@
+<link href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/2.3.1/css/flag-icon.min.css" rel="stylesheet" />
+
 <!-- SECTION -->
 <div class="section">
 	<!-- container -->
@@ -11,7 +13,7 @@
 					<h3 class="aside-title">Categories</h3>
 					<div class="checkbox-filter">
 
-						<div class="input-checkbox" >
+						<div class="input-checkbox">
 							<input type="radio" id="all-cat" name="cat" (click)="editSearchText('all-cat')" checked>
 							<label for="all-cat" style="font-size: 16px;">
 								<span></span>
@@ -20,7 +22,8 @@
 						</div>
 
 						<div class="input-checkbox" *ngFor="let c of categories">
-							<input type="radio" id="{{c.title}}" name="cat" (click)='editSearchText(c.title)' class="catClass">
+							<input type="radio" id="{{c.title}}" name="cat" (click)='editSearchText(c.title)'
+								class="catClass">
 							<label for="{{c.title}}" style="font-size: 16px;">
 								<span></span>
 								{{c.title}}
@@ -40,12 +43,70 @@
 						</div>
 						<div class="product-body">
 							<p class="product-category">{{ts.category}}</p>
-							<h3 class="product-name"><a style="cursor:pointer;" (click)="selectProduct(ts.id)">{{ts.short_desc}}</a></h3>
+							<h3 class="product-name"><a style="cursor:pointer;"
+									(click)="selectProduct(ts.id)">{{ts.short_desc}}</a></h3>
 							<h4 class="product-price">{{ts.price | currency:'₺'}}</h4>
 						</div>
 					</div>
 				</div>
 				<!-- /aside Widget -->
+
+				<!-- aside Widget -->
+				<div class="aside">
+					<br>
+					<h3 class="aside-title">Exchange Rates</h3>
+					<table class="table" style="font-size: 15px; background-color: lightgray;">
+						<thead>
+							<tr>
+								<th style=" text-align: left; vertical-align: middle;"><span
+										class="flag-icon flag-icon-tr"></span><span
+										style="font-size: 12px; font-weight: bold;">&nbsp;&nbsp;Turkish Lira</span></th>
+								<th><input class="input" type="number" [(ngModel)]="tryAmount" (change)="getCurrencies()"
+										style="height: 35px; width: 80px; text-align: right; font-size: 12px;" [min]="1" [max]="9999">
+								</th>
+							</tr>
+							<tr>
+								<th>Currency</th>
+								<th style="text-align: right;">Amount</th>
+							</tr>
+
+						</thead>
+						<tbody>
+							<tr>
+								<th style="text-align: left; vertical-align: middle;"><span
+										class="flag-icon flag-icon-eu"></span><span
+										style="font-size: 12px; font-weight: bold;">&nbsp;&nbsp;Euro</span></th>
+								<th><label style="height: 10px; width: 70px; text-align: right;" >{{euro}}</label>
+							</tr>
+							<tr>
+								<th style="text-align: left;vertical-align: middle;"><span
+										class="flag-icon flag-icon-us"></span><span
+										style="font-size: 12px; font-weight: bold;">&nbsp;&nbsp;US Dollar</span></th>
+								<th><label style="height: 10px; width: 70px; text-align: right;">{{usd}}</label>
+							</tr>
+							<tr>
+								<th style="text-align: left;vertical-align: middle;"><span
+										class="flag-icon flag-icon-gb"></span><span
+										style="font-size: 12px; font-weight: bold;">&nbsp;&nbsp;British Pound</span></th>
+								<th><label style="height: 10px; width: 70px; text-align: right;">{{gbp}}</label>
+							</tr>
+							<tr>
+								<th style="text-align: left;vertical-align: middle;"><span
+										class="flag-icon flag-icon-jp"></span><span
+										style="font-size: 12px; font-weight: bold;">&nbsp;&nbsp;Japanese Yen</span></th>
+								<th><label style="height: 10px; width: 70px; text-align: right;">{{jpy}}</label>
+							</tr>
+							<tr>
+								<th style="text-align: left;vertical-align: middle;"><span
+										class="flag-icon flag-icon-mx"></span><span
+										style="font-size: 12px; font-weight: bold;">&nbsp;&nbsp;Mexican Peso</span></th>
+								<th><label style="height: 10px; width: 70px; text-align: right;">{{mxn}}</label>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<!-- /aside Widget -->
+
 			</div>
 			<!-- /ASIDE -->
 
@@ -77,28 +138,34 @@
 				<!-- store products -->
 				<div class="row">
 					<!-- product -->
-					<div class="col-md-4 col-xs-6" *ngFor="let p of products | filter : searchText | paginate: { itemsPerPage: 9, currentPage: p } let i = index; ">
-						<div class="product" >
+					<div class="col-md-4 col-xs-6"
+						*ngFor="let p of products | filter : searchText | paginate: { itemsPerPage: 9, currentPage: p } let i = index; ">
+						<div class="product">
 							<div class="product-img">
-								<img  [src]="p.image"  height="390px" alt="{{p.name}}" (click)="selectProduct(p.id)" style="cursor:pointer;">
+								<img [src]="p.image" height="390px" alt="{{p.name}}" (click)="selectProduct(p.id)"
+									style="cursor:pointer;">
 							</div>
 							<div class="product-body" style="height: 160px;">
 								<p class="product-category">{{p.category}}</p>
-								<h3 class="product-name"><a style="cursor:pointer;" (click)="selectProduct(p.id)"><p>{{p.short_desc | titlecase}}</p></a></h3>
+								<h3 class="product-name"><a style="cursor:pointer;" (click)="selectProduct(p.id)">
+										<p>{{p.short_desc | titlecase}}</p>
+									</a></h3>
 								<h4 class="product-price">{{p.price | currency:'₺'}}</h4>
 							</div>
 							<div class="add-to-cart">
-								<button class="add-to-cart-btn"[class.disabled]="p.quantity < 1" [class.btn-outline-danger]="p.quantity < 1"
-								(click)="AddToCart(p.id)" [disabled]="p.quantity < 1">
+								<button class="add-to-cart-btn" [class.disabled]="p.quantity < 1"
+									[class.btn-outline-danger]="p.quantity < 1" (click)="AddToCart(p.id)"
+									[disabled]="p.quantity < 1">
 
-								{{ p.quantity < 1 ? "NO STOCK" : "Add To Cart"}}<i class="fa fa-shopping-cart"></i></button>
+									{{ p.quantity < 1 ? "NO STOCK" : "Add To Cart"}}<i
+										class="fa fa-shopping-cart"></i></button>
 							</div>
 						</div>
 						<div class="clearfix visible-sm visible-xs"></div>
 					</div>
 					<!-- /product -->
 
-					
+
 				</div>
 				<!-- /store products -->
 

@@ -6,6 +6,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { OrderPipe } from 'ngx-order-pipe';
 import { RatingService } from 'src/app/services/rating.service';
 import { CategoryService } from 'src/app/services/category.service';
+import { ExchangeService } from 'src/app/services/exchange.service';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -21,13 +22,21 @@ export class HomeComponent implements OnInit {
   isReverse: boolean = false;
   categories: any[] = [];
   topSelling: any[] = [];
+  tryAmount: number = 1;
+  exchangeRates: any[] = [];
+  euro: string;
+  usd: string;
+  gbp: string;
+  jpy: string;
+  mxn: string;
 
   constructor(private productService: ProductService,
     private router: Router,
     private cartService: CartService,
     private orderPipe: OrderPipe,
     private categoryService: CategoryService,
-    private route : ActivatedRoute) {
+    private route : ActivatedRoute,
+    private exchangeService : ExchangeService) {
 
       this.productService.getAllProducts().subscribe((prods: any) => {
         this.products = prods.products;
@@ -38,6 +47,7 @@ export class HomeComponent implements OnInit {
       });
 
       this.getTopSelling();
+      this.getCurrencies();
   }
 
   ngOnInit(): void {
@@ -87,6 +97,25 @@ export class HomeComponent implements OnInit {
     }
 
     this.products = this.orderPipe.transform(this.products, this.sortText[this.selectedOption], this.isReverse);
+  }
+
+  getCurrencies(){
+    if(this.tryAmount > 9999){
+      this.tryAmount = 9999
+    }
+    if(this.tryAmount < 1){
+      this.tryAmount = 1
+    }
+
+    this.exchangeService.getAllExchangeRate().subscribe(returnVal => {
+      this.exchangeRates = returnVal.rates;
+      this.euro = (this.exchangeRates["EUR"] * this.tryAmount).toFixed(2);
+      this.usd = (this.exchangeRates["USD"] * this.tryAmount).toFixed(2);
+      this.gbp = (this.exchangeRates["GBP"] * this.tryAmount).toFixed(2);
+      this.jpy = (this.exchangeRates["JPY"] * this.tryAmount).toFixed(2);
+      this.mxn = (this.exchangeRates["MXN"] * this.tryAmount).toFixed(2);
+      console.log(this.mxn);
+    });
   }
 }
 

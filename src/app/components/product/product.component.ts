@@ -8,6 +8,7 @@ import { UserService } from 'src/app/services/user.service';
 import { ToastrService } from 'ngx-toastr';
 import { RatingService } from 'src/app/services/rating.service';
 import { DatabaseProductModel } from 'src/app/model/product.model';
+import { LogService } from 'src/app/services/log.service';
 
 declare let $: any;
 
@@ -36,7 +37,9 @@ export class ProductComponent implements AfterViewInit, OnInit {
     private userService: UserService,
     private favoriteService: FavoriteService,
     private ratingService: RatingService,
-    private toast: ToastrService) {
+    private toast: ToastrService,
+    private logService: LogService) {
+
     // this.product = new ProductModelServer()
     this.route.paramMap.pipe(
       map((param: ParamMap) => {
@@ -49,7 +52,14 @@ export class ProductComponent implements AfterViewInit, OnInit {
 
       if (this.userService.userData$.getValue() !== null) {
         //@ts-ignore
-        var userId = this.userService.userData$.getValue().userId;
+        var userId;
+
+        if (this.userService.userData$.getValue().type == 'social') {
+          userId = this.userService.userData$.getValue().id;
+        }
+        else {
+          userId = this.userService.userData$.getValue().userId;
+        }
         this.favoriteService.getSingleFavorite(userId, this.id).subscribe((retVal) => {
           if (retVal.success) {
             this.isFavorite = true;
@@ -71,18 +81,25 @@ export class ProductComponent implements AfterViewInit, OnInit {
 
       this.getAverageRating();
 
-      if(this.userService.userData$.getValue() != null){
+      if (this.userService.userData$.getValue() != null) {
         //@ts-ignore
-        var userId = this.userService.userData$.getValue().userId;
+        var userId;
+
+        if (this.userService.userData$.getValue().type == 'social') {
+          userId = this.userService.userData$.getValue().id;
+        }
+        else {
+          userId = this.userService.userData$.getValue().userId;
+        }
         this.ratingService.getUserRating(userId, this.id).subscribe(retVal => {
-          if(retVal.success == true){ // there is a rating
+          if (retVal.success == true) { // there is a rating
             this.rate = retVal.ratingObj[0].value;
             console.log(this.rate)
             this.isRating = true;
           }
         });
       }
-      
+
     });
   }
 
@@ -130,15 +147,15 @@ export class ProductComponent implements AfterViewInit, OnInit {
     }
   }
 
-  getAverageRating(){
+  getAverageRating() {
     this.ratingService.getAverageProductRating(this.id).subscribe(retVal => {
-      if(retVal.success){
+      if (retVal.success) {
         this.reviewCount = retVal.count;
         this.averageRating = retVal.average * 10;
-        if(retVal.average == Math.floor(retVal.average)){
+        if (retVal.average == Math.floor(retVal.average)) {
           this.processTitle = retVal.average + ".0/10";
         }
-        else{
+        else {
           this.processTitle = retVal.average.toFixed(1) + "/10";
         }
       }
@@ -180,7 +197,7 @@ export class ProductComponent implements AfterViewInit, OnInit {
   }
 
   toggleFavorites() {
-    if(this.userService.userData$.getValue() == null) {
+    if (this.userService.userData$.getValue() == null) {
       this.toast.error(`You need to login to add the product to favorites.`, "", {
         timeOut: 1500,
         progressBar: true,
@@ -188,10 +205,18 @@ export class ProductComponent implements AfterViewInit, OnInit {
         positionClass: 'toast-top-right'
       });
     }
-    else{
-      //@ts-ignore
-      var userId = this.userService.userData$.getValue().userId;
-      if(this.isFavorite){
+    else {
+      var userId;
+
+      if (this.userService.userData$.getValue().type == 'social') {
+        userId = this.userService.userData$.getValue().id;
+      }
+      else {
+        userId = this.userService.userData$.getValue().userId;
+      }
+
+      var email = this.userService.userData$.getValue().email;
+      if (this.isFavorite) {
         this.favoriteService.removeFromFavorites(userId, this.id).subscribe((retVal) => {
           if (retVal.success) {
             this.isFavorite = false;
@@ -201,8 +226,18 @@ export class ProductComponent implements AfterViewInit, OnInit {
               progressAnimation: 'increasing',
               positionClass: 'toast-top-right'
             });
+
+            //ADD LOG
+            var newLog = { description: "", type: "" };
+
+            newLog.description = "Customer (Id: " + userId + ", E-mail: " + email + ") removed the product (Id: " + this.id + ") from favorites."
+
+            newLog.type = "Add / Remove from Favorites";
+
+            this.logService.addNewLog(newLog).subscribe(returnVal => { });
+
           }
-          else{
+          else {
             this.toast.error(`Something went wrong.`, "", {
               timeOut: 1500,
               progressBar: true,
@@ -213,7 +248,7 @@ export class ProductComponent implements AfterViewInit, OnInit {
         });
 
       }
-      else{
+      else {
         this.favoriteService.addProductToFavorites(userId, this.id).subscribe((retVal) => {
           if (retVal.success) {
             this.isFavorite = true;
@@ -223,8 +258,18 @@ export class ProductComponent implements AfterViewInit, OnInit {
               progressAnimation: 'increasing',
               positionClass: 'toast-top-right'
             });
+
+            //ADD LOG
+            var newLog = { description: "", type: "" };
+
+            newLog.description = "Customer (Id: " + userId + ", E-mail: " + email + ") added the product (Id: " + this.id + ") to favorites."
+
+            newLog.type = "Add / Remove from Favorites";
+
+            this.logService.addNewLog(newLog).subscribe(returnVal => { });
+
           }
-          else{
+          else {
             this.toast.error(`Something went wrong.`, "", {
               timeOut: 1500,
               progressBar: true,
@@ -237,8 +282,8 @@ export class ProductComponent implements AfterViewInit, OnInit {
     }
   }
 
-  addReview(){
-    if(this.userService.userData$.getValue() == null) {
+  addReview() {
+    if (this.userService.userData$.getValue() == null) {
       this.toast.error(`You need to login to add review.`, "", {
         timeOut: 1500,
         progressBar: true,
@@ -246,13 +291,20 @@ export class ProductComponent implements AfterViewInit, OnInit {
         positionClass: 'toast-top-right'
       });
     }
-    else{
-      //@ts-ignore
-      var userId = this.userService.userData$.getValue().userId;
+    else {
+      var userId;
+      if (this.userService.userData$.getValue().type == 'social') {
+        userId = this.userService.userData$.getValue().id;
+      }
+      else {
+        userId = this.userService.userData$.getValue().userId;
+      }
 
-      if(this.isRating){ //There is a rating for user
+      var email = this.userService.userData$.getValue().email;
+
+      if (this.isRating) { //There is a rating for user
         this.ratingService.updateProductRating(userId, this.id, this.rate).subscribe(retVal => {
-          if(retVal.success){
+          if (retVal.success) {
             this.toast.success(`Successfully updated.`, "", {
               timeOut: 1500,
               progressBar: true,
@@ -260,12 +312,30 @@ export class ProductComponent implements AfterViewInit, OnInit {
               positionClass: 'toast-top-right'
             });
             this.getAverageRating();
+
+            //ADD LOG
+            var newLog = { description: "", type: "" };
+
+            newLog.description = "Customer (Id: " + userId + ", E-mail: " + email + ") updated review for product (Id: " + this.id + ") with " + this.rate;
+
+            newLog.type = "Add / Update Review";
+
+            this.logService.addNewLog(newLog).subscribe(returnVal => { });
+            
+          }
+          else {
+            this.toast.error(`Something went wrong.`, "", {
+              timeOut: 1500,
+              progressBar: true,
+              progressAnimation: 'increasing',
+              positionClass: 'toast-top-right'
+            });
           }
         });
       }
-      else{ //First rating for user
+      else { //First rating for user
         this.ratingService.addRatingToProduct(userId, this.id, this.rate).subscribe(retVal => {
-          if(retVal.success){
+          if (retVal.success) {
             this.toast.success(`Successfully rated.`, "", {
               timeOut: 1500,
               progressBar: true,
@@ -274,6 +344,23 @@ export class ProductComponent implements AfterViewInit, OnInit {
             });
             this.isRating = true;
             this.getAverageRating();
+
+             //ADD LOG
+             var newLog = { description: "", type: "" };
+
+             newLog.description = "Customer (Id: " + userId + ", E-mail: " + email + ") added review to product (Id: " + this.id + ") with " + this.rate;
+ 
+             newLog.type = "Add / Update Review";
+ 
+             this.logService.addNewLog(newLog).subscribe(returnVal => { });
+          }
+          else {
+            this.toast.error(`Something went wrong.`, "", {
+              timeOut: 1500,
+              progressBar: true,
+              progressAnimation: 'increasing',
+              positionClass: 'toast-top-right'
+            });
           }
         });
       }

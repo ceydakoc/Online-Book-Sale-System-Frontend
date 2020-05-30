@@ -24,6 +24,7 @@ import { AdminUserComponent } from './components/admin-user/admin-user.component
 import { AdminTopSellingComponent } from './components/admin-top-selling/admin-top-selling.component';
 import { ContactComponent } from './components/contact/contact.component';
 import { AdminContactComponent } from './components/admin-contact/admin-contact.component';
+import { AdminLogComponent } from './components/admin-log/admin-log.component';
 
 
 const routes: Routes = [
@@ -86,6 +87,9 @@ const routes: Routes = [
   },
   {
     path: 'admin-contact', component: AdminContactComponent, canActivate:[AdminGuard]
+  },
+  {
+    path: 'admin-log', component: AdminLogComponent, canActivate:[AdminGuard]
   },
   {
     path: '**', pathMatch: 'full', redirectTo: ''

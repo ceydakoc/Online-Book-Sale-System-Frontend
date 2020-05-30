@@ -54,14 +54,11 @@
       </div>
       <div class="payment-method">
         <div class="input-radio">
-          <input type="radio" name="payment" id="payment-1">
+          <input type="radio" name="payment" id="payment-1" checked>
           <label for="payment-1">
             <span></span>
             Direct Bank Transfer
           </label>
-          <div class="caption">
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-          </div>
         </div>
         <div class="input-radio">
           <input type="radio" name="payment" id="payment-2">
@@ -69,9 +66,6 @@
             <span></span>
             Cheque Payment
           </label>
-          <div class="caption">
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-          </div>
         </div>
         <div class="input-radio">
           <input type="radio" name="payment" id="payment-3">
@@ -79,16 +73,13 @@
             <span></span>
             Paypal System
           </label>
-          <div class="caption">
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-          </div>
         </div>
       </div>
       <div class="input-checkbox">
         <input type="checkbox" id="terms">
         <label for="terms">
           <span></span>
-          I've read and accept the <a href="#">terms & conditions</a>
+          I've read and accept the terms & conditions.
         </label>
       </div>
       <button type="submit" class="btn-outline-danger btn-sm my-2 btn-block" [disabled]="cartTotal <= 0 " (click)="onCheckout()">Place order</button>

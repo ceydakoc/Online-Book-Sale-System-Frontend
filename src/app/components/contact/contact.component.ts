@@ -27,29 +27,43 @@ export class ContactComponent implements OnInit {
   }
 
   addNewMessage(){
-    this.contactModel.name = this.name;
-    this.contactModel.email = this.email
-    this.contactModel.subject = this.subject
-    this.contactModel.message = this.message
-    this.contactService.addNewMessages(this.contactModel).subscribe((retVal : any) => {
-      //@
-      if (retVal.success) {
-        this.toast.success(`We have received your message. We will return to you as soon as possible..`, "", {
-          timeOut: 1500,
-          progressBar: true,
-          progressAnimation: 'increasing',
-          positionClass: 'toast-top-right'
-        });
-      }
-      else {
-        this.toast.error(`Something went wrong :(`, "", {
-          timeOut: 1500,
-          progressBar: true,
-          progressAnimation: 'increasing',
-          positionClass: 'toast-top-right'
-        });
-      }
-    })
+
+    if(this.name != "" && this.email != "" && this.message != ""){
+
+      this.contactModel.name = this.name;
+      this.contactModel.email = this.email
+      this.contactModel.subject = this.subject
+      this.contactModel.message = this.message
+      this.contactService.addNewMessages(this.contactModel).subscribe((retVal : any) => {
+
+        if (retVal.success) {
+          this.toast.success(`We have received your message. We will return to you as soon as possible..`, "", {
+            timeOut: 1500,
+            progressBar: true,
+            progressAnimation: 'increasing',
+            positionClass: 'toast-top-right'
+          });
+        }
+        else {
+          this.toast.error(`Something went wrong :(`, "", {
+            timeOut: 1500,
+            progressBar: true,
+            progressAnimation: 'increasing',
+            positionClass: 'toast-top-right'
+          });
+        }
+      })
+    }
+
+    else {
+      this.toast.error(`Please fill the required fields.`, "", {
+        timeOut: 1500,
+        progressBar: true,
+        progressAnimation: 'increasing',
+        positionClass: 'toast-top-right'
+      });
+    }
+   
   }
 
 }

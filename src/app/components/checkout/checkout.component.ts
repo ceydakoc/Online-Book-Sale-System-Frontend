@@ -39,6 +39,8 @@ export class CheckoutComponent implements OnInit {
 
   onCheckout() {
 
+    var inputChecked = <HTMLInputElement>document.getElementById("terms");
+    
     if (this.address == "") {
       this.toast.error(`Please fill the address.`, "", {
         timeOut: 1500,
@@ -47,9 +49,24 @@ export class CheckoutComponent implements OnInit {
         positionClass: 'toast-top-right'
       })
     }
+    else if (inputChecked.checked == false) {
+      this.toast.error(`Please accept the terms & conditions.`, "", {
+        timeOut: 1500,
+        progressBar: true,
+        progressAnimation: 'increasing',
+        positionClass: 'toast-top-right'
+      })
+    }
     else {
       //@ts-ignore
-      var userId = this.userService.userData$.getValue().userId;
+      var userId;
+
+      if(this.userService.userData$.getValue().type == 'social'){
+        userId = this.userService.userData$.getValue().id;
+      }
+      else{
+        userId = this.userService.userData$.getValue().userId;
+      }
 
       this.spinner.show().then(p => {
         this.cartService.CheckoutFromCart(userId, this.address);

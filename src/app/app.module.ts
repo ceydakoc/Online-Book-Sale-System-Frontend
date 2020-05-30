@@ -39,6 +39,7 @@ import { AdminTopSellingComponent } from './components/admin-top-selling/admin-t
 import { ChartsModule } from 'ng2-charts';
 import { ContactComponent } from './components/contact/contact.component';
 import { AdminContactComponent } from './components/admin-contact/admin-contact.component';
+import { AdminLogComponent } from './components/admin-log/admin-log.component';
 
 const config = new AuthServiceConfig([
   {
@@ -77,7 +78,8 @@ export function provideConfig() {
     AdminUserComponent,
     AdminTopSellingComponent,
     ContactComponent,
-    AdminContactComponent
+    AdminContactComponent,
+    AdminLogComponent
   ],
   imports: [
     BrowserModule,

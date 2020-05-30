@@ -1,8 +1,9 @@
-import {Component, OnInit} from '@angular/core';
-import {EmailValidator, FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {CheckEmailService} from '../../validators/check-email.service';
-import {UserService} from '../../services/user.service';
-import {map} from 'rxjs/operators';
+import { Component, OnInit } from '@angular/core';
+import { EmailValidator, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { CheckEmailService } from '../../validators/check-email.service';
+import { UserService } from '../../services/user.service';
+import { map } from 'rxjs/operators';
+import { LogService } from 'src/app/services/log.service';
 
 @Component({
   selector: 'app-register',
@@ -19,8 +20,9 @@ export class RegisterComponent implements OnInit {
   registrationMessage: string;
 
   constructor(private fb: FormBuilder,
-              private checkEmailService: CheckEmailService,
-              private userService: UserService) {
+    private checkEmailService: CheckEmailService,
+    private userService: UserService,
+    private logService: LogService) {
 
     this.registrationForm = fb.group({
       fname: ['', [Validators.required, Validators.minLength(4)]],
@@ -50,15 +52,15 @@ export class RegisterComponent implements OnInit {
   }
 
   registerUser() {
-    alert("register")
     if (this.registrationForm.invalid) {
       console.log("registration form invalid")
       return;
     }
 
     // @ts-ignore
-    this.userService.registerUser({...this.registrationForm.value}).subscribe((response: { message: string }) => {
+    this.userService.registerUser({ ...this.registrationForm.value }).subscribe((response: { message: string }) => {
       this.registrationMessage = response.message;
+     
     });
 
     this.registrationForm.reset();

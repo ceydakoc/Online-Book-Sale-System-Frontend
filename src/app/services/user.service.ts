@@ -4,6 +4,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { BehaviorSubject, of, Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+import { LogService } from './log.service';
 
 @Injectable({
   providedIn: 'root'
@@ -14,12 +15,13 @@ export class UserService {
   private SERVER_URL = environment.SERVER_URL;
   private user;
   authState$ = new BehaviorSubject<boolean>(this.auth);
-  userData$ = new BehaviorSubject< any | SocialUser | ResponseModel | object>(null);
+  userData$ = new BehaviorSubject<any | SocialUser | ResponseModel | object>(null);
   loginMessage$ = new BehaviorSubject<string>(null);
   userRole: number;
 
   constructor(private authService: AuthService,
-    private httpClient: HttpClient) {
+    private httpClient: HttpClient,
+    private logService: LogService) {
     authService.authState.subscribe((user: SocialUser) => {
       if (user != null) {
 
@@ -71,6 +73,18 @@ export class UserService {
           this.userRole = data.role;
           this.authState$.next(this.auth);
           this.userData$.next(data);
+
+          //ADD LOG
+          var newLog = {description: "", type: ""};
+          if (this.userRole == 555) {
+            newLog.description = "Customer (Id: " + this.userData$.getValue().userId + ", E-mail: " + email + ") logged in locally. "
+          }
+          else if (this.userRole == 777) {
+            newLog.description = "Admin (Id: " + this.userData$.getValue().userId + ", E-mail: " + email + ") logged in locally."
+          }
+          newLog.type = "Login / Logout";
+
+          this.logService.addNewLog(newLog).subscribe(returnVal => {});
         }
       });
 
@@ -79,18 +93,53 @@ export class UserService {
   //  Google Authentication
   googleLogin() {
     this.authService.signIn(GoogleLoginProvider.PROVIDER_ID);
+
   }
 
   logout() {
+
+    //ADD LOG
+    if (this.userData$.getValue() != null ) {
+      var id; 
+
+      if(this.userData$.getValue().type == 'social'){
+        id = this.userData$.getValue().id;
+      }
+      else {
+        id = this.userData$.getValue().userId;
+      }
+      var newLog = { description: "", type: "" };
+
+      if (this.userData$.getValue().role == 555) {
+        newLog.description = "Customer (Id: " + id + ", E-mail: " + this.userData$.getValue().email + ") logged out. "
+      }
+      else if (this.userData$.getValue().role == 777) {
+        newLog.description = "Admin (Id: " + id + ", E-mail: " + this.userData$.getValue().email + ") logged out."
+      }
+      newLog.type = "Login / Logout";
+
+      this.logService.addNewLog(newLog).subscribe(returnVal => {});
+    }
+
     this.authService.signOut();
     this.auth = false;
     this.authState$.next(this.auth);
     this.userData$.next(null);
+  
   }
 
   registerUser(formData: any, photoUrl?: string, typeOfUser?: string): Observable<{ message: string }> {
     const { fname, lname, email, password } = formData;
-    console.log(formData);
+    
+     //ADD LOG
+     var newLog = { description: "", type: "" };
+
+     newLog.description = "Customer registered with E-mail: " + email
+
+     newLog.type = "Register";
+
+     this.logService.addNewLog(newLog).subscribe(returnVal => {});
+
     return this.httpClient.post<{ message: string }>(`${this.SERVER_URL}auth/register`, {
       email,
       lname,
@@ -99,25 +148,26 @@ export class UserService {
       password,
       photoUrl: photoUrl || null
     });
+    
   }
 
-  getAllUsers() : Observable<any>{
-    return this.httpClient.get<any>(this.SERVER_URL + "users/" )
+  getAllUsers(): Observable<any> {
+    return this.httpClient.get<any>(this.SERVER_URL + "users/")
   }
 
-  getSingleUser(userId : Number) : Observable<any>{
+  getSingleUser(userId: Number): Observable<any> {
     return this.httpClient.get<any>(this.SERVER_URL + "users/" + userId)
   }
 
-  deleteAdminUser(userId : Number):Observable<any>{
+  deleteAdminUser(userId: Number): Observable<any> {
     return this.httpClient.delete<any>(this.SERVER_URL + "users/adminDelete/" + userId);
   }
 
-  updateAdminUser(userId : Number, image : string,role : Number){
-    return this.httpClient.put(`${this.SERVER_URL}users/adminUpdate/` + userId , {
-      role : role,
-      id : userId,
-      photoUrl : image
+  updateAdminUser(userId: Number, image: string, role: Number) {
+    return this.httpClient.put(`${this.SERVER_URL}users/adminUpdate/` + userId, {
+      role: role,
+      id: userId,
+      photoUrl: image
     });
   }
 }

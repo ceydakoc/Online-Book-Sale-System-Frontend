@@ -54,19 +54,6 @@ export class AdminContactComponent implements OnInit {
     console.log(this.messages)
   }
 
-  getSingleMessage(messageId:number){
-    this.contactService.getSingleMessage(messageId).subscribe((returnVal : any) => {
-      if(returnVal.success){
-        this.id = returnVal.id;
-        this.name = returnVal.name;
-        this.email = returnVal.email;
-        this.subject = returnVal.subject;
-        this.messages = returnVal.message;
-        this.date = returnVal.date
-      }
-    });
-  }
-
   filterBy() {
 
     this.keysToInclude.length = 0;

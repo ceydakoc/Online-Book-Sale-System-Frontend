@@ -17,16 +17,16 @@
                         <div class="contact-form"><!-- contact form -->
                             <form class="row" action="send_email.php" id="contact" name="contact" method="post" >
                               <div class="form-group col-md-12">
-                                <input type="text" class="form-control" name="InputName" id="InputName" placeholder="Your Name" required [(ngModel)] = "name">
+                                <input type="text" class="form-control" name="InputName" id="InputName" placeholder="Your Name *" required [(ngModel)] = "name">
                               </div>
                               <div class="form-group col-md-12">
-                                <input type="email" class="form-control" name="InputEmail" id="InputEmail" placeholder="Your Email" required   [(ngModel)] = "email">
+                                <input type="email" class="form-control" name="InputEmail" id="InputEmail" placeholder="Your Email *" required   [(ngModel)] = "email">
                               </div>
                               <div class="form-group col-md-12">
                                 <input type="text" class="form-control" name="InputWeb" id="InputWeb" placeholder="Subject (Optional)"  [(ngModel)] = "subject">
                               </div>
                               <div class="form-group col-md-12">
-                                <textarea class="form-control" name="InputMessage" id="InputMessage" style="height: 100px;" placeholder="Message" required  [(ngModel)] = "message"></textarea>
+                                <textarea class="form-control" name="InputMessage" id="InputMessage" style="height: 100px;" placeholder="Message *" required  [(ngModel)] = "message"></textarea>
                               </div>
                               <div class="col-md-12">
                               <button name="submit" type="submit" class="btn normal-btn dart-btn-xs" (click) = "addNewMessage()">SEND MESSAGE</button>

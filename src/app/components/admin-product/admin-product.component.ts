@@ -14,7 +14,6 @@ import { CategoryService } from 'src/app/services/category.service';
 
 export class AdminProductComponent implements OnInit {
   willDeleteId: Number;
-  willEditId: Number;
   products: ProductModelServer[] = [];
   p: number = 1;
   searchText: string;
@@ -125,7 +124,7 @@ export class AdminProductComponent implements OnInit {
         this.prodImages = null;
       }
       this.newProduct = {
-        id: this.willEditId, title: this.prodTitle, image: this.prodImage, images: this.prodImages, description: this.prodDescription, price: this.prodPrice,
+        id: this.newProduct.id, title: this.prodTitle, image: this.prodImage, images: this.prodImages, description: this.prodDescription, price: this.prodPrice,
         quantity: this.prodQuantity, short_desc: this.prodShortDesc, cat_id: this.prodCategory
       };
       this.productService.updateProductAdmin(this.newProduct).subscribe(returnVal => {
@@ -164,25 +163,18 @@ export class AdminProductComponent implements OnInit {
     this.willDeleteId = prodId;
   }
 
-  getEditProductId(prodId: Number) {
-    this.willEditId = prodId;
+  getEditProduct(prod: any) {
+    this.newProduct = prod;
+    this.prodId = prod.id;
+    this.prodTitle = prod.title;
+    this.prodImage = prod.image;
+    this.prodImages = prod.images;
+    this.prodDescription = prod.description;
+    this.prodPrice = prod.price;
+    this.prodQuantity = prod.quantity;
+    this.prodShortDesc = prod.short_desc;
+    this.prodCategory = prod.cat_id;
 
-    this.productService.getSingleProductAdmin(this.willEditId).subscribe(returnVal => {
-      //@ts-ignore
-      if (returnVal.success) {
-        //@ts-ignore
-        this.newProduct = returnVal.prod;
-        this.prodId = this.newProduct.id;
-        this.prodTitle = this.newProduct.title;
-        this.prodImage = this.newProduct.image;
-        this.prodImages = this.newProduct.images;
-        this.prodDescription = this.newProduct.description;
-        this.prodPrice = this.newProduct.price;
-        this.prodQuantity = this.newProduct.quantity;
-        this.prodShortDesc = this.newProduct.short_desc;
-        this.prodCategory = this.newProduct.cat_id;
-      }
-    });
   }
 
   getProducts() {

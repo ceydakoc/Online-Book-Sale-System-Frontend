@@ -112,21 +112,30 @@ export class UserService {
     //ADD LOG
     if (this.userData$.getValue() != null ) {
       var id; 
-
-      if(this.userData$.getValue().type == 'social'){
-        id = this.userData$.getValue().id;
-      }
-      else {
-        id = this.userData$.getValue().userId;
-      }
       var newLog = { description: "", type: "" };
 
-      if (this.userData$.getValue().role == 555) {
-        newLog.description = "Customer (Id: " + id + ", E-mail: " + this.userData$.getValue().email + ") logged out. "
+      if(this.userData$.getValue().type == null) {
+        newLog.description = "Customer (E-mail: " + this.userData$.getValue().email + ") logged out. "
+      } 
+      else {
+        if(this.userData$.getValue().type == 'social'){
+          id = this.userData$.getValue().id;
+        }
+        else {
+          id = this.userData$.getValue().userId;
+        }
       }
-      else if (this.userData$.getValue().role == 777) {
-        newLog.description = "Admin (Id: " + id + ", E-mail: " + this.userData$.getValue().email + ") logged out."
+
+      if(this.userData$.getValue().role != null) {
+        if (this.userData$.getValue().role == 555) {
+          newLog.description = "Customer (Id: " + id + ", E-mail: " + this.userData$.getValue().email + ") logged out. "
+        }
+        else if (this.userData$.getValue().role == 777) {
+          newLog.description = "Admin (Id: " + id + ", E-mail: " + this.userData$.getValue().email + ") logged out."
+        }
       }
+
+      
       newLog.type = "Login / Logout";
 
       this.logService.addNewLog(newLog).subscribe(returnVal => {});

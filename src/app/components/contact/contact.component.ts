@@ -10,31 +10,31 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class ContactComponent implements OnInit {
 
-  constructor(private contactService : ContactService,
-              private toast : ToastrService) { }
+  constructor(private contactService: ContactService,
+    private toast: ToastrService) { }
   name: string = "";
   email: string = "";
   subject: string = "";
   message: string = "";
-  contactModel : contactModel = {
-    name : "",
-    email : "",
-    subject : "",
-    message : ""
+  contactModel: contactModel = {
+    name: "",
+    email: "",
+    subject: "",
+    message: ""
   };
   ngOnInit(): void {
 
   }
 
-  addNewMessage(){
+  addNewMessage() {
 
-    if(this.name != "" && this.email != "" && this.message != ""){
+    if (this.name != "" && this.email != "" && this.message != "") {
 
       this.contactModel.name = this.name;
       this.contactModel.email = this.email
       this.contactModel.subject = this.subject
       this.contactModel.message = this.message
-      this.contactService.addNewMessages(this.contactModel).subscribe((retVal : any) => {
+      this.contactService.addNewMessages(this.contactModel).subscribe((retVal: any) => {
 
         if (retVal.success) {
           this.toast.success(`We have received your message. We will return to you as soon as possible..`, "", {
@@ -43,6 +43,10 @@ export class ContactComponent implements OnInit {
             progressAnimation: 'increasing',
             positionClass: 'toast-top-right'
           });
+          this.name = "";
+          this.email = "";
+          this.subject = "";
+          this.message = "";
         }
         else {
           this.toast.error(`Something went wrong :(`, "", {
@@ -63,7 +67,7 @@ export class ContactComponent implements OnInit {
         positionClass: 'toast-top-right'
       });
     }
-   
+
   }
 
 }

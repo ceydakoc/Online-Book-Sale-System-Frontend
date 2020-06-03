@@ -57,7 +57,7 @@
                 </thead>
                 <tbody>
                     <tr
-                        *ngFor="let m of messages  | advancedFilter: searchText : keysToInclude | paginate: { itemsPerPage: 9, currentPage: p } | reverse">
+                        *ngFor="let m of messages  | advancedFilter: searchText : keysToInclude | paginate: { itemsPerPage: 9, currentPage: p }">
                         <td><i [ngClass]="m.isRead? 'fa fa-envelope-open-o': 'fa fa-envelope'" aria-hidden="true"></i>
                         </td>
                         <td>{{m.id}}</td>
